@@ -15,7 +15,7 @@ namespace MinecraftServerManager.Data
 
         public static Server Deserialize(string filename)
         {
-            Data.Server serverData = new Data.Server();
+            Server serverData = new Server();
             XmlSerializer serializer = new XmlSerializer(typeof(Data.Server));
             StreamReader reader = new StreamReader(filename);
             serverData = (Data.Server)serializer.Deserialize(reader);

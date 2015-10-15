@@ -15,8 +15,8 @@ namespace MinecraftServerManager.Data
 
         public static RemoteServer Deserialize(string filename)
         {
-            Data.RemoteServer serverData = new Data.RemoteServer();
-            XmlSerializer serializer = new XmlSerializer(typeof(Data.RemoteServer));
+            RemoteServer serverData = new RemoteServer();
+            XmlSerializer serializer = new XmlSerializer(typeof(RemoteServer));
             StreamReader reader = new StreamReader(filename);
             serverData = (Data.RemoteServer)serializer.Deserialize(reader);
             reader.Close();

@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Xml.Serialization;
 
 namespace MinecraftServerManager.Data
@@ -37,20 +35,6 @@ namespace MinecraftServerManager.Data
         {
             get { return WindowBackColor.ToArgb(); }
             set { WindowBackColor = Color.FromArgb(value); }
-        }
-        
-        /// <summary>
-        /// NOT USE THIS METHOD!
-        /// This is for obscufator only!
-        /// </summary>
-        public static Style Deserialize()
-        {
-            Style data = new Style();
-            XmlSerializer serializer = new XmlSerializer(typeof(Style));
-            StreamReader reader = new StreamReader("");
-            data = (Style)serializer.Deserialize(reader);
-            reader.Close();
-            return data;
         }
     }
 }

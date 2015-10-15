@@ -18,7 +18,7 @@ namespace MinecraftServerManager.Data
 
         public void Save()
         {
-            XmlSerializer writer = new System.Xml.Serialization.XmlSerializer(typeof(Data.RemoteServerRcon));
+            XmlSerializer writer = new XmlSerializer(typeof(RemoteServerRcon));
             StreamWriter file = new StreamWriter(GetFile());
             writer.Serialize(file, this);
             file.Close();

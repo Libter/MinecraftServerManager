@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Xml.Serialization;
+﻿using System.IO;
 
 namespace MinecraftServerManager.Data
 {
@@ -65,20 +63,6 @@ namespace MinecraftServerManager.Data
                 Controls.ConnectRemoteServer crs = new Controls.ConnectRemoteServer();
                 crs.Load(tabs);
             }
-        }
-
-        /// <summary>
-        /// NOT USE THIS METHOD!
-        /// This is for obscufator only!
-        /// </summary>
-        public static Tab Deserialize()
-        {
-            Tab serverData = new Tab();
-            XmlSerializer serializer = new XmlSerializer(typeof(Tab));
-            StreamReader reader = new StreamReader("");
-            serverData = (Tab)serializer.Deserialize(reader);
-            reader.Close();
-            return serverData;
         }
     }
 }

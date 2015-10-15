@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Xml.Serialization;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -86,7 +85,7 @@ namespace MinecraftServerManager.Data
 
         public void Save()
         {
-            XmlSerializer writer = new System.Xml.Serialization.XmlSerializer(typeof(Tabs));
+            XmlSerializer writer = new XmlSerializer(typeof(Tabs));
             StreamWriter file = new StreamWriter(Utils.Main.DataDirectory + "Tabs.xml");
             writer.Serialize(file, this);
             file.Close();
