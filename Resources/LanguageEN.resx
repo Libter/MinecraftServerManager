@@ -1,0 +1,536 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddServerMenu" xml:space="preserve">
+    <value>ADD SERVER</value>
+  </data>
+  <data name="BrowseDirectory" xml:space="preserve">
+    <value>Browse...</value>
+  </data>
+  <data name="ConnectLocalServer" xml:space="preserve">
+    <value>Connect local server</value>
+  </data>
+  <data name="ConnectRemoteServer" xml:space="preserve">
+    <value>Connect remote server</value>
+  </data>
+  <data name="Console" xml:space="preserve">
+    <value>Console</value>
+  </data>
+  <data name="ConsoleKill" xml:space="preserve">
+    <value>HALT</value>
+  </data>
+  <data name="ConsoleRestart" xml:space="preserve">
+    <value>RESTART</value>
+  </data>
+  <data name="ConsoleRun" xml:space="preserve">
+    <value>RUN</value>
+  </data>
+  <data name="ConsoleStop" xml:space="preserve">
+    <value>STOP</value>
+  </data>
+  <data name="DataFtp" xml:space="preserve">
+    <value>FTP data:</value>
+  </data>
+  <data name="DataRcon" xml:space="preserve">
+    <value>RCON data:</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="DownloadBegin" xml:space="preserve">
+    <value>Starting download...</value>
+  </data>
+  <data name="DownloadProgress" xml:space="preserve">
+    <value>Downloading file</value>
+  </data>
+  <data name="Engine" xml:space="preserve">
+    <value>Engine:</value>
+  </data>
+  <data name="EngineEditorHeader" xml:space="preserve">
+    <value>Checked engines will be downloaded and unchecked will be deleted.</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="ErrorEngineNotInDirectory" xml:space="preserve">
+    <value>Selected directory must contain server engine!</value>
+  </data>
+  <data name="ErrorFtp" xml:space="preserve">
+    <value>Can't connect with FTP server! Are you sure you entered correct data?</value>
+  </data>
+  <data name="ErrorNanPortFtp" xml:space="preserve">
+    <value>FTP port must be number!</value>
+  </data>
+  <data name="ErrorNanPortRcon" xml:space="preserve">
+    <value>RCON port must be number!</value>
+  </data>
+  <data name="ErrorNoDirectory" xml:space="preserve">
+    <value>Select directory!</value>
+  </data>
+  <data name="ErrorNoEngine" xml:space="preserve">
+    <value>Select engine!</value>
+  </data>
+  <data name="ErrorNoFtpData" xml:space="preserve">
+    <value>Enter FTP data!</value>
+  </data>
+  <data name="ErrorNoJar" xml:space="preserve">
+    <value>Select JAR file!</value>
+  </data>
+  <data name="ErrorNoRconData" xml:space="preserve">
+    <value>Enter RCON data!</value>
+  </data>
+  <data name="ErrorNoServerIp" xml:space="preserve">
+    <value>Enter server IP!</value>
+  </data>
+  <data name="ErrorNoServerName" xml:space="preserve">
+    <value>Enter server name!</value>
+  </data>
+  <data name="ErrorNoVersion" xml:space="preserve">
+    <value>Select version!</value>
+  </data>
+  <data name="ErrorOorPortFtp" xml:space="preserve">
+    <value>FTP port number is out of range!</value>
+  </data>
+  <data name="ErrorOorPortRcon" xml:space="preserve">
+    <value>RCON port number is out of range!</value>
+  </data>
+  <data name="ErrorRcon" xml:space="preserve">
+    <value>Can't connect with server console by RCON! Are you sure you entered correct data?
+Remember to insert the following lines in server.properties:
+enable-rcon=true
+rcon.port=Your RCON port
+rcon.password=Your RCON password</value>
+  </data>
+  <data name="ErrorServerExists" xml:space="preserve">
+    <value>Server with this name already exists!</value>
+  </data>
+  <data name="FullProgramName" xml:space="preserve">
+    <value>Minecraft - Server manager</value>
+  </data>
+  <data name="IpAdress" xml:space="preserve">
+    <value>IP adress:</value>
+  </data>
+  <data name="License" xml:space="preserve">
+    <value>License</value>
+  </data>
+  <data name="MenuAddServerLocal" xml:space="preserve">
+    <value>CREATE LOCAL SERVER</value>
+  </data>
+  <data name="MenuConnectServerLocal" xml:space="preserve">
+    <value>CONNECT LOCAL SERVER</value>
+  </data>
+  <data name="MenuConnectServerRemote" xml:space="preserve">
+    <value>CONNECT REMOTE SERVER</value>
+  </data>
+  <data name="MenuSettingsEngines" xml:space="preserve">
+    <value>ORGANIZE ENGINES</value>
+  </data>
+  <data name="MenuSettingsStyles" xml:space="preserve">
+    <value>MANAGE STYLES</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password:</value>
+  </data>
+  <data name="PerformButton" xml:space="preserve">
+    <value>PERFORM</value>
+  </data>
+  <data name="Port" xml:space="preserve">
+    <value>Port:</value>
+  </data>
+  <data name="ProgramName" xml:space="preserve">
+    <value>Server manager</value>
+  </data>
+  <data name="Properties" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Ready" xml:space="preserve">
+    <value>Done</value>
+  </data>
+  <data name="SelectedDirectory" xml:space="preserve">
+    <value>Selected directory:</value>
+  </data>
+  <data name="SelectedFile" xml:space="preserve">
+    <value>Selected file:</value>
+  </data>
+  <data name="SelectServerDirectory" xml:space="preserve">
+    <value>Select server directory:</value>
+  </data>
+  <data name="SelectServerFile" xml:space="preserve">
+    <value>Select server engine file:</value>
+  </data>
+  <data name="ServerHalted" xml:space="preserve">
+    <value>Server {0} has been stopped</value>
+  </data>
+  <data name="ServerHalting" xml:space="preserve">
+    <value>Stopping server {0}...</value>
+  </data>
+  <data name="ServerLaunching" xml:space="preserve">
+    <value>Starting server {0}...</value>
+  </data>
+  <data name="ServerRestarting" xml:space="preserve">
+    <value>Restarting server {0}...</value>
+  </data>
+  <data name="ServersTreeHeader" xml:space="preserve">
+    <value>YOUR SERVERS:</value>
+  </data>
+  <data name="SettingsMenu" xml:space="preserve">
+    <value>SETTINGS</value>
+  </data>
+  <data name="StyleBrightGold" xml:space="preserve">
+    <value>Bright gold (built-in)</value>
+  </data>
+  <data name="Upload" xml:space="preserve">
+    <value>Upload</value>
+  </data>
+  <data name="UploadBegin" xml:space="preserve">
+    <value>Starting upload...</value>
+  </data>
+  <data name="UploadProgress" xml:space="preserve">
+    <value>Uploading file</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>User:</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Version:</value>
+  </data>
+  <data name="WarningServerRunning" xml:space="preserve">
+    <value>Server "{0}" still running! Are you sure want to halt it?</value>
+  </data>
+  <data name="AgreeEula" xml:space="preserve">
+    <value>I agree</value>
+  </data>
+  <data name="Downloaded" xml:space="preserve">
+    <value>Downloaded</value>
+  </data>
+  <data name="EngineEditorAbort" xml:space="preserve">
+    <value>Downloading server engine. Are you sure want to cancel?</value>
+  </data>
+  <data name="EngineEditorName" xml:space="preserve">
+    <value>Organize engines</value>
+  </data>
+  <data name="EngineEditorPerform" xml:space="preserve">
+    <value>{0} engines will be downloaded and {1} engines will be removed.
+Are you sure want to continue?</value>
+  </data>
+  <data name="Information" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="NewLocalServerName" xml:space="preserve">
+    <value>New local server</value>
+  </data>
+  <data name="NotDownloaded" xml:space="preserve">
+    <value>Not downloaded</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="DownloadErrorServer" xml:space="preserve">
+    <value>An error ocurred downloading server engine!</value>
+  </data>
+  <data name="DownloadFinished" xml:space="preserve">
+    <value>Download finished</value>
+  </data>
+  <data name="DownloadProgressServer" xml:space="preserve">
+    <value>Downloading server engine: {0}/{1}</value>
+  </data>
+  <data name="ErrorNoEula" xml:space="preserve">
+    <value>You must agree with Mojang EULA!</value>
+  </data>
+  <data name="NewLocalServerAbort" xml:space="preserve">
+    <value>Downloading server engine. Are you sure want to cancel?</value>
+  </data>
+  <data name="StyleAdd" xml:space="preserve">
+    <value>Add style:</value>
+  </data>
+  <data name="StyleName" xml:space="preserve">
+    <value>Style name:</value>
+  </data>
+  <data name="StyleSelect" xml:space="preserve">
+    <value>Select style:</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Change" xml:space="preserve">
+    <value>Change</value>
+  </data>
+  <data name="CopyClipboard" xml:space="preserve">
+    <value>Copy to clipboard</value>
+  </data>
+  <data name="CopyDirectory" xml:space="preserve">
+    <value>Copy dorectory</value>
+  </data>
+  <data name="CopyFile" xml:space="preserve">
+    <value>Copy file</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DialogDirectoryRemove" xml:space="preserve">
+    <value>Are you sure want to delete directory "{0}"?
+This operation can't be undone!</value>
+  </data>
+  <data name="DialogFileRemove" xml:space="preserve">
+    <value>Are you sure want to delete file "{0}"?
+This operation can't be undone!</value>
+  </data>
+  <data name="DialogRemoteServerRemove" xml:space="preserve">
+    <value>Are you sure want to delete remote server "{0}" from your server list?</value>
+  </data>
+  <data name="DialogServerRemove" xml:space="preserve">
+    <value>Are you sure want to delete server "{0}"?
+This operation can't be undone!</value>
+  </data>
+  <data name="DirectoryCreate" xml:space="preserve">
+    <value>Create directory</value>
+  </data>
+  <data name="DirectoryNameChange" xml:space="preserve">
+    <value>Enter new directory name:</value>
+  </data>
+  <data name="DirectoryNameInput" xml:space="preserve">
+    <value>Enter new directory name:</value>
+  </data>
+  <data name="DirectoryNew" xml:space="preserve">
+    <value>New directory</value>
+  </data>
+  <data name="ErrorDirectoryExists" xml:space="preserve">
+    <value>Directory with this name already exists!</value>
+  </data>
+  <data name="ErrorDirectoryInvalidName" xml:space="preserve">
+    <value>Invalid directory name!</value>
+  </data>
+  <data name="ErrorFileExists" xml:space="preserve">
+    <value>File with this name already exists!</value>
+  </data>
+  <data name="ErrorFileInvalidName" xml:space="preserve">
+    <value>Invalid file name!</value>
+  </data>
+  <data name="ErrorFileNotText" xml:space="preserve">
+    <value>Can't open file, because it's not text file!</value>
+  </data>
+  <data name="ErrorFileTooBig" xml:space="preserve">
+    <value>Can't open file, because it's too big!</value>
+  </data>
+  <data name="ErrorFileUnknown" xml:space="preserve">
+    <value>Can't open file!</value>
+  </data>
+  <data name="ErrorNoStyleName" xml:space="preserve">
+    <value>Enter style name!</value>
+  </data>
+  <data name="ErrorOperationUnknown" xml:space="preserve">
+    <value>Can't complete operation, because of error!</value>
+  </data>
+  <data name="ErrorServerInvalidName" xml:space="preserve">
+    <value>Server name is invalid!</value>
+  </data>
+  <data name="ExplorerOpen" xml:space="preserve">
+    <value>Open in file explorer</value>
+  </data>
+  <data name="FileCreate" xml:space="preserve">
+    <value>Create file</value>
+  </data>
+  <data name="FileNameChange" xml:space="preserve">
+    <value>Enter new file name:</value>
+  </data>
+  <data name="FileNameInput" xml:space="preserve">
+    <value>Enter new file name:</value>
+  </data>
+  <data name="FileNew" xml:space="preserve">
+    <value>New file</value>
+  </data>
+  <data name="MoveDirectory" xml:space="preserve">
+    <value>Move directory</value>
+  </data>
+  <data name="MoveFile" xml:space="preserve">
+    <value>Move file</value>
+  </data>
+  <data name="NameChangeButton" xml:space="preserve">
+    <value>Change name</value>
+  </data>
+  <data name="NameChangeTitle" xml:space="preserve">
+    <value>Change name</value>
+  </data>
+  <data name="NewDirectory" xml:space="preserve">
+    <value>New directory</value>
+  </data>
+  <data name="NewFile" xml:space="preserve">
+    <value>New file</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="PasteClipboard" xml:space="preserve">
+    <value>Paste clipboard</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Change name</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="ServerNameChange" xml:space="preserve">
+    <value>Enter new server name:</value>
+  </data>
+  <data name="StyleAddButton" xml:space="preserve">
+    <value>ADD STYLE</value>
+  </data>
+  <data name="StyleColorBack" xml:space="preserve">
+    <value>Window background color:</value>
+  </data>
+  <data name="StyleColorControl" xml:space="preserve">
+    <value>Controls background color:</value>
+  </data>
+  <data name="StyleColorFore" xml:space="preserve">
+    <value>Text and icons color:</value>
+  </data>
+  <data name="StyleDark" xml:space="preserve">
+    <value>Dark (built-in)</value>
+  </data>
+  <data name="StyleEditorName" xml:space="preserve">
+    <value>Manage styles</value>
+  </data>
+  <data name="WarningFileNotSaved" xml:space="preserve">
+    <value>File  "{0}" hasn't been saved! Do you want to save it?</value>
+  </data>
+  <data name="MenuEnglish" xml:space="preserve">
+    <value>ENGLISH</value>
+  </data>
+  <data name="MenuLanguage" xml:space="preserve">
+    <value>LANGUAGE</value>
+  </data>
+  <data name="MenuPolish" xml:space="preserve">
+    <value>POLISH</value>
+  </data>
+  <data name="WarningServerKill" xml:space="preserve">
+    <value>Are you sure want to halt process of server "{0}"? It's recommend to use safe button "stop".</value>
+  </data>
+  <data name="OtherFemale" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="OtherMale" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="WarningLanguageChange" xml:space="preserve">
+    <value>To change the language, program must be restarted. Are you sure want to do this?</value>
+  </data>
+</root>
