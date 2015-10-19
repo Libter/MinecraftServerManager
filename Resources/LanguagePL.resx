@@ -537,4 +537,10 @@ Tej operacji nie można będzie cofnąć!</value>
   <data name="WarningLanguageChange" xml:space="preserve">
     <value>Aby zmienić język konieczny jest restart programu. Czy na pewno chcesz to zrobić?</value>
   </data>
+  <data name="Update" xml:space="preserve">
+    <value>Aktualizacja</value>
+  </data>
+  <data name="UpdateMessage" xml:space="preserve">
+    <value>Dostępna jest nowa wersja programu! Czy chcesz ją teraz pobrać?</value>
+  </data>
 </root>

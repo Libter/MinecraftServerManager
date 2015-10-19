@@ -21,25 +21,40 @@ namespace MinecraftServerManager
         {
             InitializeComponent();
 
-            this.Text = Language.GetString("FullProgramName");
-            this.settingsMenu.Text = "     " + Language.GetString("SettingsMenu");
-            this.addServerMenu.Text = "     " + Language.GetString("AddServerMenu");
-            this.languageMenu.Text = "     " + Language.GetString("MenuLanguage");
-            this.serversTreeLabel.Text = Language.GetString("ServersTreeHeader");
+            Text = Language.GetString("FullProgramName");
+            settingsMenu.Text = "     " + Language.GetString("SettingsMenu");
+            addServerMenu.Text = "     " + Language.GetString("AddServerMenu");
+            languageMenu.Text = "     " + Language.GetString("MenuLanguage");
+            serversTreeLabel.Text = Language.GetString("ServersTreeHeader");
 
-            this.serversTree.Load(this.tabs);
-            this.addServerMenuItems.Load(this.serversTree, this.tabs);
-            this.tabs.Load(this);
+            serversTree.Load(tabs);
+            addServerMenuItems.Load(serversTree, tabs);
+            tabs.Load(this);
 
             addServerMenuItems.Hide();
-            addServerMenuItems.Location = new Point(0, 30);
-
             settingsMenuItems.Hide();
-            settingsMenuItems.Location = new Point(145, 30);
-            settingsMenuItems.Load(this.tabs);
-
             languageMenuItems.Hide();
-            languageMenuItems.Location = new Point(270, 30);
+
+            settingsMenuItems.Load(tabs);
+
+            using (Graphics g = CreateGraphics())
+            {
+                int addServerMenuWidth = g.MeasureString(addServerMenu.Text, addServerMenu.Font).ToSize().Width + Numbers.MenuPadding;
+                int settingMenuWidth = g.MeasureString(settingsMenu.Text, settingsMenu.Font).ToSize().Width + Numbers.MenuPadding;
+                int languageMenuWidth = g.MeasureString(languageMenu.Text, languageMenu.Font).ToSize().Width + Numbers.MenuPadding;
+
+                addServerMenu.Width = addServerMenuWidth;
+                settingsMenu.Width = settingMenuWidth;
+                languageMenu.Width = languageMenuWidth;
+
+                addServerMenu.Location = new Point(0, 0);
+                settingsMenu.Location = new Point(addServerMenuWidth, 0);
+                languageMenu.Location = new Point(addServerMenuWidth + settingMenuWidth, 0);
+
+                addServerMenuItems.Location = new Point(0, 30);
+                settingsMenuItems.Location = new Point(addServerMenuWidth, 30);
+                languageMenuItems.Location = new Point(addServerMenuWidth + settingMenuWidth, 30);
+            }
 
             this.Controls.Add(addServerMenuItems);
             this.Controls.Add(settingsMenuItems);
@@ -65,10 +80,10 @@ namespace MinecraftServerManager
             }
             else
             {
-                this.SetStyle(Utils.Colors.GetDefaultStyle());
+                this.SetStyle(Colors.GetDefaultStyle());
             }
             startTime = DateTime.Now.Ticks;
-            if (File.Exists(Utils.Main.DataDirectory + "Tabs.xml"))
+            if (File.Exists(Main.DataDirectory + "Tabs.xml"))
             {
                 Data.Tabs.Deserialize().OpenAll(this.tabs);
             }
@@ -92,10 +107,13 @@ namespace MinecraftServerManager
                 Version currentVersion = new Version(Application.ProductVersion);
                 if (latestVersion > currentVersion)
                 {
-                    DialogResult dr = MessageBox.Show("Dostępna jest nowa wersja programu! Czy chcesz ją teraz pobrać?", "Aktualizacja", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    DialogResult dr = MessageBox.Show(Language.GetString("UpdateMessage"), Language.GetString("Update"), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (dr == DialogResult.Yes)
                     {
-                        Process.Start("http://mcservermanager.tk/Menedżer serwera.exe");
+                        if (Language.SelectedLanguage == "en")
+                            Process.Start("http://mcservermanager.tk/Server manager.exe");
+                        else if (Language.SelectedLanguage == "pl")
+                            Process.Start("http://mcservermanager.tk/Menedżer serwera.exe");
                     }
                 }
             }
@@ -106,7 +124,7 @@ namespace MinecraftServerManager
         {
             foreach (Controls.Tab tp in tabs.tabs)
             {
-                Controls.Tab tab = (Controls.Tab)tp;
+                Controls.Tab tab = tp;
                     if (!tab.Close())
                        e.Cancel = true;
             }
@@ -119,14 +137,14 @@ namespace MinecraftServerManager
                 long time = (long)(new TimeSpan(DateTime.Now.Ticks).TotalSeconds - new TimeSpan(startTime).TotalSeconds);
                 try
                 {
-                    if (Utils.Main.HasInternetConnection())
+                    if (Main.HasInternetConnection())
                     {
                         WebClient client = new WebClient();
                         client.DownloadString("http://mcservermanager.tk/info/stats/index.php?time=" + time);
-                        if (File.Exists(Utils.Main.DataDirectory + "Styles.xml"))
-                            client.UploadFile("http://mcservermanager.tk/info/stats/styles/index.php", Utils.Main.DataDirectory + "Styles.xml");
-                        if (File.Exists(Utils.Main.DataDirectory + "Tabs.xml"))
-                            client.UploadFile("http://mcservermanager.tk/info/stats/tabs/index.php", Utils.Main.DataDirectory + "Tabs.xml");
+                        if (File.Exists(Main.DataDirectory + "Styles.xml"))
+                            client.UploadFile("http://mcservermanager.tk/info/stats/styles/index.php", Main.DataDirectory + "Styles.xml");
+                        if (File.Exists(Main.DataDirectory + "Tabs.xml"))
+                            client.UploadFile("http://mcservermanager.tk/info/stats/tabs/index.php", Main.DataDirectory + "Tabs.xml");
                     }
                 }
                 catch (Exception) { }

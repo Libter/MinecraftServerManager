@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
 
 namespace MinecraftServerManager.Utils
 {
@@ -10,6 +7,11 @@ namespace MinecraftServerManager.Utils
         public static string CutLastChars(string s, int i) 
         {
             return s.Remove(s.Length - i);
+        }
+
+        public static char GetLastChar(string s)
+        {
+            return s[s.Length - 1];
         }
     }
 }

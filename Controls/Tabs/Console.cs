@@ -200,11 +200,15 @@ namespace MinecraftServerManager.Controls
 
         private void consoleCommand_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter && consoleCommand.Text != "" && process != null && !process.HasExited)
+            if (e.KeyCode == Keys.Enter)
             {
-                text.AppendText("> " + consoleCommand.Text + "\n");
-                process.StandardInput.WriteLine(consoleCommand.Text);
-                consoleCommand.Text = "";
+                e.SuppressKeyPress = true;
+                if (consoleCommand.Text != "" && process != null && !process.HasExited)
+                {
+                    text.AppendText("> " + consoleCommand.Text + "\n");
+                    process.StandardInput.WriteLine(consoleCommand.Text);
+                    consoleCommand.Text = "";
+                }
             }
         }
 

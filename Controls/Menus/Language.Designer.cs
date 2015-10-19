@@ -43,7 +43,6 @@
             this.english.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.english.Location = new System.Drawing.Point(1, 1);
             this.english.Name = "english";
-            this.english.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
             this.english.Size = new System.Drawing.Size(110, 30);
             this.english.TabIndex = 1;
             this.english.TabStop = false;
@@ -63,7 +62,6 @@
             this.polish.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.polish.Location = new System.Drawing.Point(1, 31);
             this.polish.Name = "polish";
-            this.polish.Padding = new System.Windows.Forms.Padding(0, 0, 14, 0);
             this.polish.Size = new System.Drawing.Size(110, 30);
             this.polish.TabIndex = 2;
             this.polish.TabStop = false;

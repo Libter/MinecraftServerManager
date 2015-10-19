@@ -33,10 +33,10 @@
             this.serversTreeLabel = new System.Windows.Forms.Label();
             this.hideMenusTimer = new System.Windows.Forms.Timer(this.components);
             this.treeTabsContainer = new System.Windows.Forms.SplitContainer();
-            this.languageMenu = new MinecraftServerManager.Controls.Button();
-            this.settingsMenu = new MinecraftServerManager.Controls.Button();
             this.serversTree = new MinecraftServerManager.Controls.ServersTreeView();
             this.tabs = new MinecraftServerManager.Controls.Tabs();
+            this.languageMenu = new MinecraftServerManager.Controls.Button();
+            this.settingsMenu = new MinecraftServerManager.Controls.Button();
             this.addServerMenu = new MinecraftServerManager.Controls.Button();
             ((System.ComponentModel.ISupportInitialize)(this.treeTabsContainer)).BeginInit();
             this.treeTabsContainer.Panel1.SuspendLayout();
@@ -87,6 +87,31 @@
             this.treeTabsContainer.TabStop = false;
             this.treeTabsContainer.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.treeTabsContainer_SplitterMoved);
             // 
+            // serversTree
+            // 
+            this.serversTree.AllowDrop = true;
+            this.serversTree.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.serversTree.ImageIndex = 0;
+            this.serversTree.ItemHeight = 18;
+            this.serversTree.LabelEdit = true;
+            this.serversTree.Location = new System.Drawing.Point(0, 20);
+            this.serversTree.Name = "serversTree";
+            this.serversTree.SelectedImageIndex = 0;
+            this.serversTree.ShowLines = false;
+            this.serversTree.Size = new System.Drawing.Size(151, 360);
+            this.serversTree.TabIndex = 1;
+            // 
+            // tabs
+            // 
+            this.tabs.BackColor = System.Drawing.Color.Gold;
+            this.tabs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabs.ForeColor = System.Drawing.Color.Black;
+            this.tabs.Location = new System.Drawing.Point(0, 0);
+            this.tabs.Name = "tabs";
+            this.tabs.Size = new System.Drawing.Size(682, 383);
+            this.tabs.TabIndex = 0;
+            this.tabs.TabStop = false;
+            // 
             // languageMenu
             // 
             this.languageMenu.FlatAppearance.BorderSize = 0;
@@ -118,32 +143,10 @@
             this.settingsMenu.Size = new System.Drawing.Size(125, 30);
             this.settingsMenu.TabIndex = 1;
             this.settingsMenu.TabStop = false;
-            this.settingsMenu.Text = "     USTAWIENIA";
+            this.settingsMenu.Text = "     SETTINGS";
             this.settingsMenu.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.settingsMenu.UseVisualStyleBackColor = true;
             this.settingsMenu.MouseEnter += new System.EventHandler(this.settingsMenu_MouseEnter);
-            // 
-            // serversTree
-            // 
-            this.serversTree.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.serversTree.ImageIndex = 0;
-            this.serversTree.LabelEdit = true;
-            this.serversTree.Location = new System.Drawing.Point(0, 20);
-            this.serversTree.Name = "serversTree";
-            this.serversTree.SelectedImageIndex = 0;
-            this.serversTree.Size = new System.Drawing.Size(151, 360);
-            this.serversTree.TabIndex = 1;
-            // 
-            // tabs
-            // 
-            this.tabs.BackColor = System.Drawing.Color.Gold;
-            this.tabs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabs.ForeColor = System.Drawing.Color.Black;
-            this.tabs.Location = new System.Drawing.Point(0, 0);
-            this.tabs.Name = "tabs";
-            this.tabs.Size = new System.Drawing.Size(682, 383);
-            this.tabs.TabIndex = 0;
-            this.tabs.TabStop = false;
             // 
             // addServerMenu
             // 
@@ -158,7 +161,7 @@
             this.addServerMenu.Size = new System.Drawing.Size(145, 30);
             this.addServerMenu.TabIndex = 0;
             this.addServerMenu.TabStop = false;
-            this.addServerMenu.Text = "     DODAJ SERWER";
+            this.addServerMenu.Text = "     ADD SERVER";
             this.addServerMenu.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.addServerMenu.UseVisualStyleBackColor = true;
             this.addServerMenu.MouseEnter += new System.EventHandler(this.addServerMenu_MouseEnter);

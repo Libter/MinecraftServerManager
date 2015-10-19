@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Reflection;
 using System.Globalization;
+using MinecraftServerManager.Utils;
 
 namespace MinecraftServerManager
 {
@@ -47,16 +48,16 @@ namespace MinecraftServerManager
             if (File.Exists(Utils.Main.DataDirectory + "Language.xml"))
             {
                 Data.Language language = Data.Language.Deserialize();
-                Utils.Language.Init(language.SelectedLanguage);
+                Language.Init(language.SelectedLanguage);
             }
             else
             {
                 CultureInfo culture = CultureInfo.CurrentCulture;
                 string cultureCode = culture.TwoLetterISOLanguageName;
                 if (cultureCode == "pl")
-                    Utils.Language.Init("pl");
+                    Language.Init("pl");
                 else
-                    Utils.Language.Init("en");
+                    Language.Init("en");
             }
                 
             Application.EnableVisualStyles();

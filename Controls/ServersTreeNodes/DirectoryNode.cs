@@ -96,16 +96,9 @@ namespace MinecraftServerManager.Controls.ServersTreeNodes
         {
             int fileCount = 0;
 
-            try
-            {
-                fileCount = this.directory.GetFiles().Length;
-
-                if ((fileCount + this.directory.GetDirectories().Length) > 0)
-                    new FakeChildNode(this);
-            }
-            catch
-            {
-            }
+            fileCount = this.directory.GetFiles().Length;
+            if ((fileCount + this.directory.GetDirectories().Length) > 0)
+                new FakeChildNode(this);
         }
 
         public DirectoryInfo GetDirectory()

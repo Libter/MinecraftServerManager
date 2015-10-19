@@ -43,7 +43,6 @@
             this.style.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.style.Location = new System.Drawing.Point(1, 1);
             this.style.Name = "style";
-            this.style.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
             this.style.Size = new System.Drawing.Size(188, 30);
             this.style.TabIndex = 1;
             this.style.TabStop = false;
@@ -63,7 +62,6 @@
             this.engine.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.engine.Location = new System.Drawing.Point(1, 31);
             this.engine.Name = "engine";
-            this.engine.Padding = new System.Windows.Forms.Padding(0, 0, 14, 0);
             this.engine.Size = new System.Drawing.Size(188, 30);
             this.engine.TabIndex = 2;
             this.engine.TabStop = false;

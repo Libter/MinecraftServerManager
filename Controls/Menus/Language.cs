@@ -1,4 +1,7 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Drawing;
+using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace MinecraftServerManager.Controls.Menus
 {
@@ -11,6 +14,18 @@ namespace MinecraftServerManager.Controls.Menus
             InitializeComponent();
             this.english.Text = "     " + Utils.Language.GetString("MenuEnglish");
             this.polish.Text = "     " + Utils.Language.GetString("MenuPolish");
+
+            using (Graphics g = CreateGraphics())
+            {
+                List<int> widthList = new List<int>();
+                widthList.Add(g.MeasureString(polish.Text, polish.Font).ToSize().Width);
+                widthList.Add(g.MeasureString(english.Text, english.Font).ToSize().Width);
+
+                int width = Utils.Numbers.Max(widthList) + Utils.Numbers.MenuPadding;
+                Width = width + 2;
+                polish.Width = width;
+                english.Width = width;
+            }
         }
 
         public new void Load(Tabs _tabs)
@@ -25,12 +40,12 @@ namespace MinecraftServerManager.Controls.Menus
             this.polish.BackColor = style.ControlBackColor;
         }
 
-        private void english_Click(object sender, System.EventArgs e)
+        private void english_Click(object sender, EventArgs e)
         {
             ChangeLanguage("en");
         }
 
-        private void polish_Click(object sender, System.EventArgs e)
+        private void polish_Click(object sender, EventArgs e)
         {
             ChangeLanguage("pl");
         }

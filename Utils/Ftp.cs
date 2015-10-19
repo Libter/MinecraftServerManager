@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Text;
 
 namespace MinecraftServerManager.Utils
 {
@@ -164,11 +165,38 @@ namespace MinecraftServerManager.Utils
             deleteDirectoryWithoutContent(data, directory);
         }
 
+        public static void move(Data.RemoteServer data, string currentPath, string destinationPath)
+        {
+            Uri uriSource = new Uri(data.adress + currentPath, UriKind.Absolute);
+            Uri uriDestination = new Uri(data.adress + destinationPath, UriKind.Absolute);
+            Uri targetUriRelative = uriSource.MakeRelativeUri(uriDestination);
+
+            /* Create an FTP Request */
+            ftpRequest = (FtpWebRequest)WebRequest.Create(uriSource);
+            /* Log in to the FTP Server with the User Name and Password Provided */
+            ftpRequest.Credentials = new NetworkCredential(data.login, data.password);
+            /* When in doubt, use these options */
+            ftpRequest.UseBinary = true;
+            ftpRequest.UsePassive = true;
+            ftpRequest.KeepAlive = true;
+            /* Specify the Type of FTP Request */
+            ftpRequest.Method = WebRequestMethods.Ftp.Rename;
+            /* Rename the File */
+            ftpRequest.RenameTo = Uri.UnescapeDataString(targetUriRelative.OriginalString);
+            /* Establish Return Communication with the FTP Server */
+            ftpResponse = (FtpWebResponse)ftpRequest.GetResponse();
+            /* Resource Cleanup */
+            ftpResponse.Close();
+            ftpRequest = null;
+        }
+
         /* Rename File */
         public static void rename(Data.RemoteServer data, string currentFileNameAndPath, string newFileName)
         {
             /* Create an FTP Request */
-            ftpRequest = (FtpWebRequest)WebRequest.Create(data.adress + Utils.Strings.CutLastChars(currentFileNameAndPath, 1));
+            if (Strings.GetLastChar(currentFileNameAndPath) == '/')
+                currentFileNameAndPath = Strings.CutLastChars(currentFileNameAndPath, 1);
+            ftpRequest = (FtpWebRequest)WebRequest.Create(data.adress + currentFileNameAndPath);
             /* Log in to the FTP Server with the User Name and Password Provided */
             ftpRequest.Credentials = new NetworkCredential(data.login, data.password);
             /* When in doubt, use these options */

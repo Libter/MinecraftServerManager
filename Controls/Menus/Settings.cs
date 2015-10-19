@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Drawing;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace MinecraftServerManager.Controls.Menus
@@ -12,6 +14,18 @@ namespace MinecraftServerManager.Controls.Menus
             InitializeComponent();
             this.style.Text = "     " + Utils.Language.GetString("MenuSettingsStyles");
             this.engine.Text = "     " + Utils.Language.GetString("MenuSettingsEngines");
+
+            using (Graphics g = CreateGraphics())
+            {
+                List<int> widthList = new List<int>();
+                widthList.Add(g.MeasureString(style.Text, style.Font).ToSize().Width);
+                widthList.Add(g.MeasureString(engine.Text, engine.Font).ToSize().Width);
+
+                int width = Utils.Numbers.Max(widthList) + Utils.Numbers.MenuPadding;
+                Width = width + 2;
+                style.Width = width;
+                engine.Width = width;
+            }
         }
 
         public new void Load(Tabs _tabs)

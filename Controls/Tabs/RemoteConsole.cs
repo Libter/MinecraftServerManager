@@ -80,14 +80,18 @@ namespace MinecraftServerManager.Controls
 
         private void consoleCommand_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter && consoleCommand.Text != "")
+            if (e.KeyCode == Keys.Enter)
             {
-                text.AppendText("> " + consoleCommand.Text + "\n");
-                string answer = rcon.sendMessage(RconMessageType.Command, consoleCommand.Text);
-                if (answer != "")
-                    text.AppendText(answer + "\n");
-                consoleCommand.Text = "";
-                text.Navigate(text.Lines.Count - 1);
+                e.SuppressKeyPress = true;
+                if (consoleCommand.Text != "")
+                {
+                    text.AppendText("> " + consoleCommand.Text + "\n");
+                    string answer = rcon.sendMessage(RconMessageType.Command, consoleCommand.Text);
+                    if (answer != "")
+                        text.AppendText(answer + "\n");
+                    consoleCommand.Text = "";
+                    text.Navigate(text.Lines.Count - 1);
+                }
             }
         }
 

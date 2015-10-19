@@ -533,4 +533,10 @@ This operation can't be undone!</value>
   <data name="WarningLanguageChange" xml:space="preserve">
     <value>To change the language, program must be restarted. Are you sure want to do this?</value>
   </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="UpdateMessage" xml:space="preserve">
+    <value>New version of program is available! Do you want do download it now?</value>
+  </data>
 </root>

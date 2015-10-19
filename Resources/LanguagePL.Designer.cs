@@ -1213,6 +1213,24 @@ namespace MinecraftServerManager.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Aktualizacja.
+        /// </summary>
+        internal static string Update {
+            get {
+                return ResourceManager.GetString("Update", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dostępna jest nowa wersja programu! Czy chcesz ją teraz pobrać?.
+        /// </summary>
+        internal static string UpdateMessage {
+            get {
+                return ResourceManager.GetString("UpdateMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Wysyłanie.
         /// </summary>
         internal static string Upload {
