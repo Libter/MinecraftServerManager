@@ -40,7 +40,7 @@ namespace MinecraftServerManager.Utils
         {
             try
             {
-                IPHostEntry i = Dns.GetHostEntry("www.google.com");
+                IPHostEntry i = Dns.GetHostEntry("google.com");
                 return true;
             }
             catch

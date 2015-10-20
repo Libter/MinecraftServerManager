@@ -7,6 +7,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using FastColoredTextBoxNS;
+using MinecraftServerManager.Utils;
 using MinecraftServerManager.Utils.MinecraftRcon;
 
 namespace MinecraftServerManager.Controls
@@ -49,8 +50,8 @@ namespace MinecraftServerManager.Controls
             reader.Close();
             rcon = RconClient.INSTANCE;
             rcon.setupStream(serverData.adress, serverData.port, serverData.password);
-            this.text.Clear();
-            this.text.TextChanged += new EventHandler<TextChangedEventArgs>(Parsers.Log.Parse);
+            text.Clear();
+            text.TextChanged += new EventHandler<TextChangedEventArgs>(Parsers.Log.Parse);
             foreach (Tab t in tabs.tabs)
             {
                 if (t.control is RemoteConsole)
@@ -134,7 +135,8 @@ namespace MinecraftServerManager.Controls
 
         public void SetStyle(Data.Style style)
         {
-            Utils.Colors.StyleFastColoredTextBox(this.text, style);
+            Colors.StyleFastColoredTextBox(text, style);
+            Colors.StyleTextBox(consoleCommand, style);
         }
     }
 }

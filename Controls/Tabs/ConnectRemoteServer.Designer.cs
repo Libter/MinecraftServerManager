@@ -49,6 +49,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.readyButton = new System.Windows.Forms.Button();
+            this.worker = new System.ComponentModel.BackgroundWorker();
             this.SuspendLayout();
             // 
             // versionSelect
@@ -269,6 +270,11 @@
             this.readyButton.UseVisualStyleBackColor = true;
             this.readyButton.Click += new System.EventHandler(this.readyButton_Click);
             // 
+            // worker
+            // 
+            this.worker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.worker_DoWork);
+            this.worker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.worker_RunWorkerCompleted);
+            // 
             // ConnectRemoteServer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -325,5 +331,6 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Button readyButton;
+        private System.ComponentModel.BackgroundWorker worker;
     }
 }

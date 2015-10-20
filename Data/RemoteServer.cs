@@ -1,17 +1,18 @@
 ﻿using System;
 using System.IO;
 using System.Xml.Serialization;
+using MinecraftServerManager.Utils;
 
 namespace MinecraftServerManager.Data
 {
     public class RemoteServer
     {
-        public String name;
-        public String engine;
-        public String version;
-        public String adress;
-        public String login;
-        public String password;
+        public string name;
+        public string engine;
+        public string version;
+        public string adress;
+        public string login;
+        public string password;
 
         public static RemoteServer Deserialize(string filename)
         {
@@ -30,18 +31,18 @@ namespace MinecraftServerManager.Data
 
         public string GetDirectory()
         {
-            return Utils.Main.RemoteDirectory + name;
+            return Main.RemoteDirectory + name;
         }
 
         public string GetFile()
         {
-            return Utils.Main.RemoteDirectory + name + Path.DirectorySeparatorChar + "MainData.xml";
+            return Main.RemoteDirectory + name + Path.DirectorySeparatorChar + "MainData.xml";
         }
 
         public void Save()
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(GetFile()));
-            XmlSerializer writer = new System.Xml.Serialization.XmlSerializer(typeof(Data.RemoteServer));
+            Directory.CreateDirectory(GetDirectory());
+            XmlSerializer writer = new XmlSerializer(typeof(RemoteServer));
             StreamWriter file = new StreamWriter(GetFile());
             writer.Serialize(file, this);
             file.Close();

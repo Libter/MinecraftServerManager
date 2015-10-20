@@ -48,12 +48,13 @@
         '\"',
         '\'',
         '\''};
-            this.text.AutoScrollMinSize = new System.Drawing.Size(2, 14);
+            this.text.AutoScrollMinSize = new System.Drawing.Size(2, 16);
             this.text.BackBrush = null;
-            this.text.CharHeight = 14;
-            this.text.CharWidth = 8;
+            this.text.CharHeight = 16;
+            this.text.CharWidth = 9;
             this.text.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.text.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.text.Font = new System.Drawing.Font("Courier New", 11F);
             this.text.IsReplaceMode = false;
             this.text.Location = new System.Drawing.Point(0, 0);
             this.text.Name = "text";

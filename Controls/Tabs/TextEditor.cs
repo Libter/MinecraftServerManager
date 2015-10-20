@@ -3,6 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using FastColoredTextBoxNS;
+using MinecraftServerManager.Utils;
 using MinecraftServerManager.Dialogs;
 
 namespace MinecraftServerManager.Controls
@@ -31,29 +32,29 @@ namespace MinecraftServerManager.Controls
         public TextEditor()
         {
             InitializeComponent();
-            this.saveButton.Text = Utils.Language.GetString("Save");
+            saveButton.Text = Utils.Language.GetString("Save");
         }
 
         public new void Load(Data.RemoteServer _data, string file, Tabs tabs)
         {
-            this.ftp = true;
-            this.Data = _data;
-            this.ftpFile = file;
+            ftp = true;
+            Data = _data;
+            ftpFile = file;
             FtpDownloader downloader = new FtpDownloader();
             string ftpIp = this.Data.adress.Replace("/", "").Split(':')[1];
-            string ftpLocalFileName = Utils.Main.TempRemoteDirectory + ftpIp + Path.DirectorySeparatorChar + Path.GetFileName(file);
-            downloader.Download(this.Data, ftpLocalFileName, file);
+            string ftpLocalFileName = Main.TempRemoteDirectory + ftpIp + Path.DirectorySeparatorChar + Path.GetFileName(file);
+            downloader.Download(Data, ftpLocalFileName, file);
             Load(new FileInfo(ftpLocalFileName), tabs);
         }
 
-        public new void Load(Controls.ServersTreeNodes.RemoteFileNode node, Tabs tabs)
+        public new void Load(ServersTreeNodes.RemoteFileNode node, Tabs tabs)
         {
-            this.ftp = true;
-            this.Data = node.data;
-            this.ftpFile = node.GetFile();
+            ftp = true;
+            Data = node.data;
+            ftpFile = node.GetFile();
             FtpDownloader downloader = new FtpDownloader();
             string ftpIp = node.data.adress.Replace("/", "").Split(':')[1];
-            string ftpLocalFileName =  Utils.Main.TempRemoteDirectory + ftpIp + Path.DirectorySeparatorChar + Path.GetFileName(node.GetFile());
+            string ftpLocalFileName = Main.TempRemoteDirectory + ftpIp + Path.DirectorySeparatorChar + Path.GetFileName(node.GetFile());
             downloader.Download(node.data, ftpLocalFileName, node.GetFile());
             Load(new FileInfo(ftpLocalFileName), tabs);
         }
@@ -123,9 +124,7 @@ namespace MinecraftServerManager.Controls
                 DialogResult dr = MessageBox.Show(String.Format(Utils.Language.GetString("WarningFileNotSaved"), file.Name), 
                                   Utils.Language.GetString("Warning"), MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
                 if (dr == DialogResult.Yes)
-                {
                     saveButton_Click(null, null);
-                }
             }
             return true;
         }
@@ -144,10 +143,7 @@ namespace MinecraftServerManager.Controls
             sr.Close();
             saved = true;
             if (ftp)
-            {
-                Dialogs.FtpUploader uploader = new Dialogs.FtpUploader();
-                uploader.Upload(this.Data, file.FullName, this.ftpFile);
-            }
+                new FtpUploader().Upload(Data, file.FullName, ftpFile);
         }
 
         private void Parser(object sender, TextChangedEventArgs e)
@@ -284,8 +280,8 @@ namespace MinecraftServerManager.Controls
 
         public void SetStyle(Data.Style style)
         {
-            Utils.Colors.StyleFastColoredTextBox(text, style);
-            Utils.Colors.StyleButton(saveButton, style);
+            Colors.StyleFastColoredTextBox(text, style);
+            Colors.StyleButton(saveButton, style);
         }
     }
 }
