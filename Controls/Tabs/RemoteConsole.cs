@@ -137,6 +137,7 @@ namespace MinecraftServerManager.Controls
         {
             Colors.StyleFastColoredTextBox(text, style);
             Colors.StyleTextBox(consoleCommand, style);
+            consoleCommand.BorderStyle = BorderStyle.None;
         }
     }
 }
