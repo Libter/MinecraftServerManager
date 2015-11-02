@@ -2,26 +2,29 @@
 using System.Windows.Forms;
 using System.IO;
 using System.Collections.Generic;
+using Microsoft.VisualBasic.Devices;
+using Microsoft.VisualBasic.FileIO;
 
 namespace MinecraftServerManager.Controls.ServersTreeNodes
 {
     public class DirectoryNode : TreeNode
     {
-        private DirectoryInfo directory;
+        public bool Delete = false;
+        private DirectoryInfo Directory;
         protected List<string> names = new List<string>();
         protected Timer timer = new Timer();
 
         public DirectoryNode(DirectoryNode parent, DirectoryInfo directoryInfo)
             : base(directoryInfo.Name)
         {
-            this.directory = directoryInfo;
+            Directory = directoryInfo;
 
-            this.ImageIndex = ServersTreeView.FolderCloseIcon;
-            this.SelectedImageIndex = this.ImageIndex;
+            ImageIndex = ServersTreeView.FolderCloseIcon;
+            SelectedImageIndex = ImageIndex;
 
-            this.timer.Tick += new EventHandler(timer_tick);
-            this.timer.Interval = 100;
-            this.timer.Start();
+            timer.Tick += new EventHandler(timer_tick);
+            timer.Interval = 100;
+            timer.Start();
 
             parent.Nodes.Add(this);
 
@@ -31,11 +34,11 @@ namespace MinecraftServerManager.Controls.ServersTreeNodes
         public DirectoryNode(ServersTreeView treeView, DirectoryInfo directoryInfo, string name)
             : base(name)
         {
-            this.directory = directoryInfo;
+            Directory = directoryInfo;
 
-            this.timer.Tick += new EventHandler(timer_tick);
-            this.timer.Interval = 100;
-            this.timer.Start();
+            timer.Tick += new EventHandler(timer_tick);
+            timer.Interval = 100;
+            timer.Start();
 
             treeView.Nodes.Add(this);
 
@@ -46,18 +49,30 @@ namespace MinecraftServerManager.Controls.ServersTreeNodes
         {
             try
             {
-                if (this.IsExpanded)
-                    Refresh();
+                 Refresh();
             }
             catch (Exception) { }
         }
 
         public virtual void Refresh()
         {
+            if (Delete)
+            {
+                try
+                {
+                    if (Directory.Exists)
+                        new Computer().FileSystem.DeleteDirectory(Directory.FullName, UIOption.AllDialogs, RecycleOption.SendToRecycleBin);
+                    if (this is ServerNode && ((ServerNode)this).GetServerData().isImported)
+                        File.Delete(((ServerNode)this).GetServerData().GetFile());
+                    Destroy();
+                }
+                catch (OperationCanceledException) { }
+                return;
+            }
             List<string> newNames = new List<string>();
-            foreach (DirectoryInfo directoryInfo in directory.GetDirectories())
+            foreach (DirectoryInfo directoryInfo in Directory.GetDirectories())
                 newNames.Add(directoryInfo.FullName);
-            foreach (FileInfo fileInfo in directory.GetFiles())
+            foreach (FileInfo fileInfo in Directory.GetFiles())
                 newNames.Add(fileInfo.FullName);
             bool equals = true;
             if (newNames.Count != names.Count)
@@ -77,17 +92,17 @@ namespace MinecraftServerManager.Controls.ServersTreeNodes
             }
             if (!equals)
             {
-                this.names.Clear();
-                this.Nodes.Clear();
-                foreach (DirectoryInfo directoryInfo in directory.GetDirectories())
+                names.Clear();
+                Nodes.Clear();
+                foreach (DirectoryInfo directoryInfo in Directory.GetDirectories())
                 {
                     new DirectoryNode(this, directoryInfo);
-                    this.names.Add(directoryInfo.FullName);
+                    names.Add(directoryInfo.FullName);
                 }
-                foreach (FileInfo fileInfo in directory.GetFiles())
+                foreach (FileInfo fileInfo in Directory.GetFiles())
                 {
                     new FileNode(this, fileInfo);
-                    this.names.Add(fileInfo.FullName);
+                    names.Add(fileInfo.FullName);
                 }
             }
         }
@@ -96,14 +111,14 @@ namespace MinecraftServerManager.Controls.ServersTreeNodes
         {
             int fileCount = 0;
 
-            fileCount = this.directory.GetFiles().Length;
-            if ((fileCount + this.directory.GetDirectories().Length) > 0)
+            fileCount = Directory.GetFiles().Length;
+            if ((fileCount + Directory.GetDirectories().Length) > 0)
                 new FakeChildNode(this);
         }
 
         public DirectoryInfo GetDirectory()
         {
-            return directory;
+            return Directory;
         }
 
         public new ServersTreeView TreeView
@@ -113,8 +128,8 @@ namespace MinecraftServerManager.Controls.ServersTreeNodes
 
         public void Destroy()
         {
-            this.Remove();
-            this.timer.Stop();
+            Remove();
+            timer.Stop();
         }
     }
 }

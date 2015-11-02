@@ -8,17 +8,21 @@ using MinecraftServerManager.Dialogs;
 
 namespace MinecraftServerManager.Controls
 {
-    public partial class TextEditor : UserControl, IStyleableTab
+    public partial class FileEditor : UserControl, IStyleableTab
     {
-        public FileInfo file;
+        private enum FileType { Text, Image }
 
-        private bool saved = true;
+        public FileInfo file;
         public bool ftp = false;
         public Data.RemoteServer Data;
         public string ftpFile;
+
+        private bool saved = true;
+        private FileType fileType;
         private string[] disallowedExtensions = new string[] {
-            "jar", "gz", "zip", "rar", "tar", "tar.gz", "dat", "mca", "lock", "png", "jpg", "bmp", "gif"
+            "jar", "gz", "zip", "rar", "tar", "tar.gz", "dat", "mca", "lock"
         };
+        private string[] imageExtensions = new string[] { "png", "jpg", "jpeg", "bmp", "gif" };
 
         private FastColoredTextBoxNS.Style KeyStyle = new TextStyle(Brushes.Orange, null, FontStyle.Regular);
         private FastColoredTextBoxNS.Style CommentStyle = new TextStyle(Brushes.Gray, null, FontStyle.Regular);
@@ -29,7 +33,7 @@ namespace MinecraftServerManager.Controls
         private FastColoredTextBoxNS.Style ItemStyle = new TextStyle(Brushes.LightBlue, null, FontStyle.Bold);
         private FastColoredTextBoxNS.Style CharStyle = new TextStyle(Brushes.Red, null, FontStyle.Bold);
 
-        public TextEditor()
+        public FileEditor()
         {
             InitializeComponent();
             saveButton.Text = Utils.Language.GetString("Save");
@@ -61,11 +65,27 @@ namespace MinecraftServerManager.Controls
 
         public new void Load(FileInfo _file, Tabs tabs)
         {
-            this.file = _file;
-            if (!this.file.Exists)
+            fileType = FileType.Text;
+            file = _file;
+            foreach (Tab t in tabs.tabs)
             {
-                this.Close();
-                return;
+                if (t.control is FileEditor)
+                {
+                    FileEditor te = (FileEditor)t.control;
+                    if (te.file.FullName == file.FullName)
+                    {
+                        tabs.SelectTab(t);
+                        return;
+                    }
+                }
+            }
+            foreach (string extension in imageExtensions)
+            {
+                if (file.Extension == "." + extension)
+                {
+                    fileType = FileType.Image;
+                    break;
+                }
             }
             foreach (string extension in disallowedExtensions)
             {
@@ -74,45 +94,47 @@ namespace MinecraftServerManager.Controls
                     return;
                 }
             }
-            if (file.Length > 1024 * 1024)
+            switch (fileType)
             {
-                Error.Show("ErrorFileTooBig");
-                return;
-            }
-            foreach (Tab t in tabs.tabs) 
-            {
-                if (t.control is TextEditor)
-                {
-                    TextEditor te = (TextEditor)t.control;
-                    if (te.file.FullName == file.FullName)
+                case FileType.Text:
+                    if (file.Length > 1024 * 1024)
                     {
-                        tabs.SelectTab(t);
+                        Error.Show("ErrorFileTooBig");
                         return;
                     }
-                }
-            }
-            if (file.Extension == ".properties")
-                this.text.TextChanged += new EventHandler<TextChangedEventArgs>(PropertiesParser);
-            else if (file.Extension == ".yml")
-                this.text.TextChanged += new EventHandler<TextChangedEventArgs>(YamlParser);
-            else if (file.Extension == ".json")
-                this.text.TextChanged += new EventHandler<TextChangedEventArgs>(JsonParser);
-            else if (file.Extension == ".log")
-                this.text.TextChanged += new EventHandler<TextChangedEventArgs>(Parsers.Log.Parse);
-            else if (file.Extension == ".sk")
-                this.text.TextChanged += new EventHandler<TextChangedEventArgs>(SkriptParser);
-            this.text.TextChanged += new EventHandler<TextChangedEventArgs>(Parser);
-            try
-            {
-                StreamReader sr = new StreamReader(file.FullName);
-                text.Text = sr.ReadToEnd();
-                sr.Close();
-                saved = true;
-            }
-            catch (IOException)
-            {
-                Error.Show("ErrorFileUnknown");
-                return;
+                    try
+                    {
+                        StreamReader sr = new StreamReader(file.FullName);
+                        text.Text = sr.ReadToEnd();
+                        sr.Close();
+                        saved = true;
+                    }
+                    catch (IOException)
+                    {
+                        Error.Show("ErrorFileUnknown");
+                        return;
+                    }
+
+                    text.Visible = true;
+                    saveButton.Visible = true;
+
+                    if (file.Extension == ".properties")
+                        text.TextChanged += new EventHandler<TextChangedEventArgs>(PropertiesParser);
+                    else if (file.Extension == ".yml")
+                        text.TextChanged += new EventHandler<TextChangedEventArgs>(YamlParser);
+                    else if (file.Extension == ".json")
+                        text.TextChanged += new EventHandler<TextChangedEventArgs>(JsonParser);
+                    else if (file.Extension == ".log")
+                        text.TextChanged += new EventHandler<TextChangedEventArgs>(Log.Parse);
+                    else if (file.Extension == ".sk")
+                        text.TextChanged += new EventHandler<TextChangedEventArgs>(SkriptParser);
+                    text.TextChanged += new EventHandler<TextChangedEventArgs>(Parser);
+                    break;
+                case FileType.Image:
+                    picturePanel.Visible = true;
+                    picturePanel.Location = new Point(0, 0);
+                    pictureBox.Image = new Bitmap(file.FullName);
+                    break;
             }
             tabs.AddTab(file.Name, this);
         }
@@ -131,9 +153,17 @@ namespace MinecraftServerManager.Controls
 
         private void TextEditor_Resize(object sender, EventArgs e)
         {
-            text.Size = new Size(this.Width, this.Height - 30);
-            saveButton.Location = new Point(0, this.Height - 30);
-            saveButton.Size = new Size(this.Width, 30);
+            switch (fileType)
+            {
+                case FileType.Text:
+                    text.Size = new Size(Width, Height - 30);
+                    saveButton.Location = new Point(0, Height - 30);
+                    saveButton.Size = new Size(Width, 30);
+                    break;
+                case FileType.Image:
+                    picturePanel.Size = Size;
+                    break;
+            }
         }
 
         private void saveButton_Click(object sender, EventArgs e)
@@ -145,6 +175,14 @@ namespace MinecraftServerManager.Controls
             if (ftp)
                 new FtpUploader().Upload(Data, file.FullName, ftpFile);
         }
+
+        public void SetStyle(Data.Style style)
+        {
+            Colors.StyleFastColoredTextBox(text, style);
+            Colors.StyleButton(saveButton, style);
+        }
+
+        #region Parsers
 
         private void Parser(object sender, TextChangedEventArgs e)
         {
@@ -278,10 +316,37 @@ namespace MinecraftServerManager.Controls
                 @"tool|held item|type of|vehicle|version|weather|world|worlds|yaw|pitch|loop-value|loop-player|loop-integer)\b");
         }
 
-        public void SetStyle(Data.Style style)
+        public class Log
         {
-            Colors.StyleFastColoredTextBox(text, style);
-            Colors.StyleButton(saveButton, style);
+            private static FastColoredTextBoxNS.Style ConsoleCommandStyle = new TextStyle(Brushes.Blue, null, FontStyle.Bold);
+            private static FastColoredTextBoxNS.Style CharStyle = new TextStyle(Brushes.Red, null, FontStyle.Bold);
+            private static FastColoredTextBoxNS.Style ThreadStyle = new TextStyle(Brushes.Orange, null, FontStyle.Regular);
+            private static FastColoredTextBoxNS.Style TimeStyle = new TextStyle(Brushes.Gray, null, FontStyle.Regular);
+
+            private static FastColoredTextBoxNS.Style SevereStyle = new TextStyle(Brushes.DarkRed, null, FontStyle.Bold);
+            private static FastColoredTextBoxNS.Style ErrorStyle = new TextStyle(Brushes.Red, null, FontStyle.Bold);
+            private static FastColoredTextBoxNS.Style WarnStyle = new TextStyle(Brushes.Orange, null, FontStyle.Regular);
+            private static FastColoredTextBoxNS.Style InfoStyle = new TextStyle(Brushes.LightBlue, null, FontStyle.Regular);
+            private static FastColoredTextBoxNS.Style FineStyle = new TextStyle(Brushes.Green, null, FontStyle.Regular);
+
+            public static void Parse(object sender, TextChangedEventArgs e)
+            {
+                e.ChangedRange.SetStyle(CharStyle, @"[>\[\]]");
+                e.ChangedRange.SetStyle(ConsoleCommandStyle, ">.*");
+
+                e.ChangedRange.SetStyle(ThreadStyle, @"\[" + Utils.Language.GetString("ProgramName") + @"\]");
+
+                e.ChangedRange.SetStyle(FineStyle, @"\bFINE\b");
+                e.ChangedRange.SetStyle(InfoStyle, @"\bINFO\b");
+                e.ChangedRange.SetStyle(WarnStyle, @"\bWARN\b");
+                e.ChangedRange.SetStyle(ErrorStyle, @"\bERROR\b");
+                e.ChangedRange.SetStyle(SevereStyle, @"\bSEVERE\b");
+
+                e.ChangedRange.SetStyle(TimeStyle, @"\[\d\d:\d\d:\d\d");
+                e.ChangedRange.SetStyle(ThreadStyle, @"\[.*thread/");
+            }
         }
+
+        #endregion
     }
 }

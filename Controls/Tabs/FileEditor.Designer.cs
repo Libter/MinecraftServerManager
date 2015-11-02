@@ -1,6 +1,6 @@
 ﻿namespace MinecraftServerManager.Controls
 {
-    partial class TextEditor
+    partial class FileEditor
     {
         /// <summary> 
         /// Required designer variable.
@@ -30,8 +30,12 @@
         {
             this.components = new System.ComponentModel.Container();
             this.text = new FastColoredTextBoxNS.FastColoredTextBox();
+            this.pictureBox = new System.Windows.Forms.PictureBox();
+            this.picturePanel = new System.Windows.Forms.Panel();
             this.saveButton = new MinecraftServerManager.Controls.Button();
             ((System.ComponentModel.ISupportInitialize)(this.text)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
+            this.picturePanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // text
@@ -64,7 +68,27 @@
             this.text.Size = new System.Drawing.Size(700, 470);
             this.text.TabIndex = 0;
             this.text.TabStop = false;
+            this.text.Visible = false;
             this.text.Zoom = 100;
+            // 
+            // pictureBox
+            // 
+            this.pictureBox.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox.Name = "pictureBox";
+            this.pictureBox.Size = new System.Drawing.Size(200, 39);
+            this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBox.TabIndex = 0;
+            this.pictureBox.TabStop = false;
+            // 
+            // picturePanel
+            // 
+            this.picturePanel.AutoScroll = true;
+            this.picturePanel.Controls.Add(this.pictureBox);
+            this.picturePanel.Location = new System.Drawing.Point(3, 470);
+            this.picturePanel.Name = "picturePanel";
+            this.picturePanel.Size = new System.Drawing.Size(200, 39);
+            this.picturePanel.TabIndex = 0;
+            this.picturePanel.Visible = false;
             // 
             // saveButton
             // 
@@ -80,19 +104,24 @@
             this.saveButton.TabStop = false;
             this.saveButton.Text = "Save";
             this.saveButton.UseVisualStyleBackColor = false;
+            this.saveButton.Visible = false;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
-            // TextEditor
+            // FileEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.picturePanel);
             this.Controls.Add(this.saveButton);
             this.Controls.Add(this.text);
-            this.Name = "TextEditor";
+            this.Name = "FileEditor";
             this.Size = new System.Drawing.Size(700, 500);
             this.Resize += new System.EventHandler(this.TextEditor_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.text)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
+            this.picturePanel.ResumeLayout(false);
+            this.picturePanel.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -101,5 +130,7 @@
 
         private FastColoredTextBoxNS.FastColoredTextBox text;
         private MinecraftServerManager.Controls.Button saveButton;
+        private System.Windows.Forms.PictureBox pictureBox;
+        private System.Windows.Forms.Panel picturePanel;
     }
 }

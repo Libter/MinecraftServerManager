@@ -15,30 +15,36 @@ namespace MinecraftServerManager.Data
         {
             if (DataFileName == null)
                 return;
-            if (Type == TabType.Console)
+
+            if (File.Exists(DataFileName))
             {
-                Server data = Server.Deserialize(DataFileName);
-                Controls.Console console = new Controls.Console();
-                console.Load(data, tabs);
+                if (Type == TabType.Console)
+                {
+                    Server data = Server.Deserialize(DataFileName);
+                    Controls.Console console = new Controls.Console();
+                    console.Load(data, tabs);
+                }
+                else if (Type == TabType.RemoteConsole)
+                {
+                    RemoteServer rs = RemoteServer.Deserialize(DataFileName);
+                    Controls.RemoteConsole remoteConsole = new Controls.RemoteConsole();
+                    remoteConsole.Load(rs, rs.name, tabs);
+                }
+                else if (Type == TabType.TextEditor)
+                {
+                    Controls.FileEditor textEditor = new Controls.FileEditor();
+                    textEditor.Load(new FileInfo(DataFileName), tabs);
+                }
+                else if (Type == TabType.RemoteTextEditor)
+                {
+                    RemoteServer rs = RemoteServer.Deserialize(DataFileName);
+                    Controls.FileEditor textEditor = new Controls.FileEditor();
+                    textEditor.Load(rs, this.RemoteFileName, tabs);
+                }
+                return;
             }
-            else if (Type == TabType.RemoteConsole)
-            {
-                RemoteServer rs = RemoteServer.Deserialize(DataFileName);
-                Controls.RemoteConsole remoteConsole = new Controls.RemoteConsole();
-                remoteConsole.Load(rs, rs.name, tabs);
-            }
-            else if (Type == TabType.TextEditor)
-            {
-                Controls.TextEditor textEditor = new Controls.TextEditor();
-                textEditor.Load(new FileInfo(DataFileName), tabs);
-            }
-            else if (Type == TabType.RemoteTextEditor)
-            {
-                RemoteServer rs = RemoteServer.Deserialize(DataFileName);
-                Controls.TextEditor textEditor = new Controls.TextEditor();
-                textEditor.Load(rs, this.RemoteFileName, tabs);
-            }
-            else if (Type == TabType.StyleEditor)
+
+            if (Type == TabType.StyleEditor)
             {
                 Controls.StyleEditor se = new Controls.StyleEditor();
                 se.Load(tabs);

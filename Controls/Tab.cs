@@ -84,8 +84,8 @@ namespace MinecraftServerManager.Controls
 
         public bool Close()
         {
-            if (this.control is TextEditor)
-                return ((TextEditor)this.control).Close();
+            if (this.control is FileEditor)
+                return ((FileEditor)this.control).Close();
             else if (this.control is Console)
                 return ((Console)this.control).Close();
             else if (this.control is StyleEditor)

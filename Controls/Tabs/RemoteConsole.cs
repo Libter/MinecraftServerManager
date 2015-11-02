@@ -51,7 +51,7 @@ namespace MinecraftServerManager.Controls
             rcon = RconClient.INSTANCE;
             rcon.setupStream(serverData.adress, serverData.port, serverData.password);
             text.Clear();
-            text.TextChanged += new EventHandler<TextChangedEventArgs>(Parsers.Log.Parse);
+            text.TextChanged += new EventHandler<TextChangedEventArgs>(FileEditor.Log.Parse);
             foreach (Tab t in tabs.tabs)
             {
                 if (t.control is RemoteConsole)

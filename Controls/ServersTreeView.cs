@@ -38,29 +38,29 @@ namespace MinecraftServerManager.Controls
 
         public ServersTreeView()
         {
-            this.ImageList = _imageList;
-            this.ImageList.ColorDepth = ColorDepth.Depth32Bit;
-            this.MouseDown += new MouseEventHandler(ServersTreeView_MouseDown);
-            this.BeforeExpand += new TreeViewCancelEventHandler(ServersTreeView_BeforeExpand);
-            this.BeforeCollapse += new TreeViewCancelEventHandler(ServersTreeView_BeforeCollapse);
-            this.DoubleClick += new EventHandler(openMenu_Click);
-            this.BeforeLabelEdit += new NodeLabelEditEventHandler(ServersTreeView_BeforeLabelEdit);
-            this.AfterLabelEdit += new NodeLabelEditEventHandler(ServersTreeView_AfterLabelEdit);
-            this.ItemDrag += new ItemDragEventHandler(ServersTreeView_ItemDrag);
-            this.DragOver += new DragEventHandler(ServersTreeView_DragOver);
-            this.DragDrop += new DragEventHandler(ServersTreeView_DragDrop);
+            ImageList = _imageList;
+            ImageList.ColorDepth = ColorDepth.Depth32Bit;
+            MouseDown += new MouseEventHandler(ServersTreeView_MouseDown);
+            BeforeExpand += new TreeViewCancelEventHandler(ServersTreeView_BeforeExpand);
+            BeforeCollapse += new TreeViewCancelEventHandler(ServersTreeView_BeforeCollapse);
+            DoubleClick += new EventHandler(openMenu_Click);
+            BeforeLabelEdit += new NodeLabelEditEventHandler(ServersTreeView_BeforeLabelEdit);
+            AfterLabelEdit += new NodeLabelEditEventHandler(ServersTreeView_AfterLabelEdit);
+            ItemDrag += new ItemDragEventHandler(ServersTreeView_ItemDrag);
+            DragOver += new DragEventHandler(ServersTreeView_DragOver);
+            DragDrop += new DragEventHandler(ServersTreeView_DragDrop);
             
-            this.LabelEdit = true;
-            this.AllowDrop = true;
+            LabelEdit = true;
+            AllowDrop = true;
 
-            this.ItemHeight = this.ItemHeight + 2;
+            ItemHeight = ItemHeight + 2;
 
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         public void Load(Tabs _tabs)
         {
-            this.tabs = _tabs;
+            tabs = _tabs;
             FullRefresh();
         }
 
@@ -97,12 +97,14 @@ namespace MinecraftServerManager.Controls
                     node.Expand();
                 }
             }
-            foreach (string importedServer in Directory.GetFiles(Utils.Main.ImportDirectory))
+            foreach (string importedServer in Directory.GetFiles(Main.ImportDirectory))
             {
                 Data.Server serverData = Data.Server.Deserialize(importedServer);
-
-                ServerNode node = new ServerNode(this, new DirectoryInfo(serverData.path), serverData);
-                node.Expand();
+                if (Directory.Exists(serverData.path) && File.Exists(serverData.jarPath))
+                {
+                    ServerNode node = new ServerNode(this, new DirectoryInfo(serverData.path), serverData);
+                    node.Expand();
+                }
             }
 
             foreach (string remoteServer in Directory.GetDirectories(Utils.Main.RemoteDirectory))
@@ -123,39 +125,39 @@ namespace MinecraftServerManager.Controls
 
         private void ServersTreeView_MouseDown(object sender, MouseEventArgs e)
         {
-            TreeNode node = this.GetNodeAt(e.X, e.Y);
-            this.SelectedNode = node;
+            TreeNode node = GetNodeAt(e.X, e.Y);
+            SelectedNode = node;
 
             if (e.Button == MouseButtons.Right)
             {
-                if (this.SelectedNode is ServerNode)
+                if (SelectedNode is ServerNode)
                 {
                     serverContextMenu.Show(this, e.X, e.Y);
                 }
-                else if (this.SelectedNode is DirectoryNode)
+                else if (SelectedNode is DirectoryNode)
                 {
                     directoryContextMenu.Show(this, e.X, e.Y);
                 }
-                else if (this.SelectedNode is FileNode)
+                else if (SelectedNode is FileNode)
                 {
                     fileContextMenu.Show(this, e.X, e.Y);
                 }
-                else if (this.SelectedNode is RemoteServerNode)
+                else if (SelectedNode is RemoteServerNode)
                 {
                     remoteServerContextMenu.Show(this, e.X, e.Y);
                 }
-                else if (this.SelectedNode is RemoteDirectoryNode)
+                else if (SelectedNode is RemoteDirectoryNode)
                 {
                     remoteDirectoryContextMenu.Show(this, e.X, e.Y);
                 }
-                else if (this.SelectedNode is RemoteFileNode)
+                else if (SelectedNode is RemoteFileNode)
                 {
                     remoteFileContextMenu.Show(this, e.X, e.Y);
                 }
-                else if (this.SelectedNode is ConsoleNode || this.SelectedNode is RemoteConsoleNode)
+                else if (SelectedNode is ConsoleNode || SelectedNode is RemoteConsoleNode)
                 {
                     openContextMenu.Show(this, e.X, e.Y);
-                } else if (this.SelectedNode is PropertiesNode)
+                } else if (SelectedNode is PropertiesNode)
                 {
                     openContextMenu.Show(this, e.X, e.Y);
                 }
@@ -215,7 +217,7 @@ namespace MinecraftServerManager.Controls
         private void ServersTreeView_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
         {
             LabelEditAction EditAction = this.EditAction;
-            this.EditAction = LabelEditAction.None;
+            EditAction = LabelEditAction.None;
             if (e.Label == null || e.Label == "")
             {
                 if (EditAction == LabelEditAction.Rename)
@@ -411,18 +413,18 @@ namespace MinecraftServerManager.Controls
 
             if (node is FileNode || node is DirectoryNode || node is RemoteFileNode)
             {
-                this.SelectedNode = node;
-                this.DragNode = node;
-                this.DoDragDrop(e.Item, DragDropEffects.Move);
+                SelectedNode = node;
+                DragNode = node;
+                DoDragDrop(e.Item, DragDropEffects.Move);
             }
         }
 
         private void ServersTreeView_DragOver(object sender, DragEventArgs e)
         {
-            Point point = this.PointToClient(new Point(e.X, e.Y));
-            TreeNode node = this.GetNodeAt(point);
+            Point point = PointToClient(new Point(e.X, e.Y));
+            TreeNode node = GetNodeAt(point);
 
-            if ((node is DirectoryNode || node is RemoteDirectoryNode) && this.DragNode.Parent != node)
+            if ((node is DirectoryNode || node is RemoteDirectoryNode) && DragNode.Parent != node)
                 e.Effect = DragDropEffects.Move;
             else
                 e.Effect = DragDropEffects.None;
@@ -433,8 +435,8 @@ namespace MinecraftServerManager.Controls
             if (e.Effect != DragDropEffects.Move)
                 return;
 
-            Point point = this.PointToClient(new Point(e.X, e.Y));
-            TreeNode node = this.GetNodeAt(point);
+            Point point = PointToClient(new Point(e.X, e.Y));
+            TreeNode node = GetNodeAt(point);
 
             if (node is DirectoryNode)
             {
@@ -498,77 +500,77 @@ namespace MinecraftServerManager.Controls
 
         private void InitializeComponent()
         {
-            this.serverContextMenu = new ContextMenuStrip();
-            this.directoryContextMenu = new ContextMenuStrip();
-            this.remoteServerContextMenu = new ContextMenuStrip();
-            this.remoteDirectoryContextMenu = new ContextMenuStrip();
-            this.remoteFileContextMenu = new ContextMenuStrip();
-            this.fileContextMenu = new ContextMenuStrip();
-            this.openContextMenu = new ContextMenuStrip();
-            this.SuspendLayout();
+            serverContextMenu = new ContextMenuStrip();
+            directoryContextMenu = new ContextMenuStrip();
+            remoteServerContextMenu = new ContextMenuStrip();
+            remoteDirectoryContextMenu = new ContextMenuStrip();
+            remoteFileContextMenu = new ContextMenuStrip();
+            fileContextMenu = new ContextMenuStrip();
+            openContextMenu = new ContextMenuStrip();
+            SuspendLayout();
 
-            this.serverContextMenu.Items.Add(CreateRenameMenuItem());
-            this.serverContextMenu.Items.Add(CreateRemoveMenuItem());
-            this.serverContextMenu.Items.Add(CreateCopyClipboardMenuItem());
-            this.serverContextMenu.Items.Add(CreatePasteClipboardMenuItem());
-            this.serverContextMenu.Items.Add(CreateNewFileMenuItem());
-            this.serverContextMenu.Items.Add(CreateNewDirectoryMenuItem());
-            this.serverContextMenu.Items.Add(CreateCopyFileMenuItem());
-            this.serverContextMenu.Items.Add(CreateCopyDirectoryMenuItem());
-            this.serverContextMenu.Items.Add(CreateMoveFileMenuItem());
-            this.serverContextMenu.Items.Add(CreateMoveDirectoryMenuItem());
-            this.serverContextMenu.Items.Add(CreateExploreMenuItem());
+            serverContextMenu.Items.Add(CreateRenameMenuItem());
+            serverContextMenu.Items.Add(CreateRemoveMenuItem());
+            serverContextMenu.Items.Add(CreateCopyClipboardMenuItem());
+            serverContextMenu.Items.Add(CreatePasteClipboardMenuItem());
+            serverContextMenu.Items.Add(CreateNewFileMenuItem());
+            serverContextMenu.Items.Add(CreateNewDirectoryMenuItem());
+            serverContextMenu.Items.Add(CreateCopyFileMenuItem());
+            serverContextMenu.Items.Add(CreateCopyDirectoryMenuItem());
+            serverContextMenu.Items.Add(CreateMoveFileMenuItem());
+            serverContextMenu.Items.Add(CreateMoveDirectoryMenuItem());
+            serverContextMenu.Items.Add(CreateExploreMenuItem());
 
-            this.directoryContextMenu.Items.Add(CreateRenameMenuItem());
-            this.directoryContextMenu.Items.Add(CreateRemoveMenuItem());
-            this.directoryContextMenu.Items.Add(CreateCopyClipboardMenuItem());
-            this.directoryContextMenu.Items.Add(CreatePasteClipboardMenuItem());
-            this.directoryContextMenu.Items.Add(CreateNewFileMenuItem());
-            this.directoryContextMenu.Items.Add(CreateNewDirectoryMenuItem());
-            this.directoryContextMenu.Items.Add(CreateCopyFileMenuItem());
-            this.directoryContextMenu.Items.Add(CreateCopyDirectoryMenuItem());
-            this.directoryContextMenu.Items.Add(CreateMoveFileMenuItem());
-            this.directoryContextMenu.Items.Add(CreateMoveDirectoryMenuItem());
-            this.directoryContextMenu.Items.Add(CreateExploreMenuItem());
+            directoryContextMenu.Items.Add(CreateRenameMenuItem());
+            directoryContextMenu.Items.Add(CreateRemoveMenuItem());
+            directoryContextMenu.Items.Add(CreateCopyClipboardMenuItem());
+            directoryContextMenu.Items.Add(CreatePasteClipboardMenuItem());
+            directoryContextMenu.Items.Add(CreateNewFileMenuItem());
+            directoryContextMenu.Items.Add(CreateNewDirectoryMenuItem());
+            directoryContextMenu.Items.Add(CreateCopyFileMenuItem());
+            directoryContextMenu.Items.Add(CreateCopyDirectoryMenuItem());
+            directoryContextMenu.Items.Add(CreateMoveFileMenuItem());
+            directoryContextMenu.Items.Add(CreateMoveDirectoryMenuItem());
+            directoryContextMenu.Items.Add(CreateExploreMenuItem());
 
-            this.remoteServerContextMenu.Items.Add(CreateRenameMenuItem());
-            this.remoteServerContextMenu.Items.Add(CreateRemoveMenuItem());
-            this.remoteServerContextMenu.Items.Add(CreateNewFileMenuItem());
-            this.remoteServerContextMenu.Items.Add(CreateNewDirectoryMenuItem());
-            this.remoteServerContextMenu.Items.Add(CreateCopyFileMenuItem());
-            this.remoteServerContextMenu.Items.Add(CreateCopyDirectoryMenuItem());
+            remoteServerContextMenu.Items.Add(CreateRenameMenuItem());
+            remoteServerContextMenu.Items.Add(CreateRemoveMenuItem());
+            remoteServerContextMenu.Items.Add(CreateNewFileMenuItem());
+            remoteServerContextMenu.Items.Add(CreateNewDirectoryMenuItem());
+            remoteServerContextMenu.Items.Add(CreateCopyFileMenuItem());
+            remoteServerContextMenu.Items.Add(CreateCopyDirectoryMenuItem());
 
-            this.remoteDirectoryContextMenu.Items.Add(CreateRenameMenuItem());
-            this.remoteDirectoryContextMenu.Items.Add(CreateRemoveMenuItem());
-            this.remoteDirectoryContextMenu.Items.Add(CreateNewFileMenuItem());
-            this.remoteDirectoryContextMenu.Items.Add(CreateNewDirectoryMenuItem());
-            this.remoteDirectoryContextMenu.Items.Add(CreateCopyFileMenuItem());
-            this.remoteDirectoryContextMenu.Items.Add(CreateCopyDirectoryMenuItem());
+            remoteDirectoryContextMenu.Items.Add(CreateRenameMenuItem());
+            remoteDirectoryContextMenu.Items.Add(CreateRemoveMenuItem());
+            remoteDirectoryContextMenu.Items.Add(CreateNewFileMenuItem());
+            remoteDirectoryContextMenu.Items.Add(CreateNewDirectoryMenuItem());
+            remoteDirectoryContextMenu.Items.Add(CreateCopyFileMenuItem());
+            remoteDirectoryContextMenu.Items.Add(CreateCopyDirectoryMenuItem());
 
-            this.remoteFileContextMenu.Items.Add(CreateOpenMenuItem());
-            this.remoteFileContextMenu.Items.Add(CreateRenameMenuItem());
-            this.remoteFileContextMenu.Items.Add(CreateRemoveMenuItem());
+            remoteFileContextMenu.Items.Add(CreateOpenMenuItem());
+            remoteFileContextMenu.Items.Add(CreateRenameMenuItem());
+            remoteFileContextMenu.Items.Add(CreateRemoveMenuItem());
 
-            this.openContextMenu.Items.Add(CreateOpenMenuItem());
+            openContextMenu.Items.Add(CreateOpenMenuItem());
 
-            this.fileContextMenu.Items.Add(CreateOpenMenuItem());
-            this.fileContextMenu.Items.Add(CreateRenameMenuItem());
-            this.fileContextMenu.Items.Add(CreateRemoveMenuItem());
-            this.fileContextMenu.Items.Add(CreateCopyClipboardMenuItem());
+            fileContextMenu.Items.Add(CreateOpenMenuItem());
+            fileContextMenu.Items.Add(CreateRenameMenuItem());
+            fileContextMenu.Items.Add(CreateRemoveMenuItem());
+            fileContextMenu.Items.Add(CreateCopyClipboardMenuItem());
 
-            this.ResumeLayout(false);
+            ResumeLayout(false);
         }
 
         public void SetStyle(Data.Style style)
         {
-            this.BackColor = style.ControlBackColor;
-            this.ForeColor = style.ForeColor;
+            BackColor = style.ControlBackColor;
+            ForeColor = style.ForeColor;
 
-            _imageList.Images[0] = Icons.AddColor(Properties.Resources.FolderOpenIcon, this.ForeColor);
-            _imageList.Images[1] = Icons.AddColor(Properties.Resources.FolderCloseIcon, this.ForeColor);
-            _imageList.Images[2] = Icons.AddColor(Properties.Resources.LocalIcon, this.ForeColor);
-            _imageList.Images[3] = Icons.AddColor(Properties.Resources.RemoteIcon, this.ForeColor);
-            _imageList.Images[4] = Icons.AddColor(Properties.Resources.ConsoleIcon, this.ForeColor);
+            _imageList.Images[0] = Icons.AddColor(Properties.Resources.FolderOpenIcon, ForeColor);
+            _imageList.Images[1] = Icons.AddColor(Properties.Resources.FolderCloseIcon, ForeColor);
+            _imageList.Images[2] = Icons.AddColor(Properties.Resources.LocalIcon, ForeColor);
+            _imageList.Images[3] = Icons.AddColor(Properties.Resources.RemoteIcon, ForeColor);
+            _imageList.Images[4] = Icons.AddColor(Properties.Resources.ConsoleIcon, ForeColor);
         }
 
         #endregion
@@ -592,8 +594,8 @@ namespace MinecraftServerManager.Controls
         private void newFileMenu_Click(object sender, EventArgs e)
         {
             EditAction = LabelEditAction.NewFile;
-            this.SelectedNode.Expand();
-            TreeNode newNode = this.SelectedNode.Nodes.Add("");
+            SelectedNode.Expand();
+            TreeNode newNode = SelectedNode.Nodes.Add("");
 
             string emptyFilePath = Main.TempDirectory + "empty_file";
             File.Create(emptyFilePath).Close();
@@ -605,8 +607,8 @@ namespace MinecraftServerManager.Controls
         private void newDirectoryMenu_Click(object sender, EventArgs e)
         {
             EditAction = LabelEditAction.NewDirectory;
-            this.SelectedNode.Expand();
-            TreeNode newNode = this.SelectedNode.Nodes.Add("");
+            SelectedNode.Expand();
+            TreeNode newNode = SelectedNode.Nodes.Add("");
             newNode.ImageIndex = FolderCloseIcon;
 
             newNode.BeginEdit();
@@ -614,9 +616,9 @@ namespace MinecraftServerManager.Controls
 
         private void removeMenu_Click(object sender, EventArgs e)
         {
-            if (base.SelectedNode is FileNode)
+            if (SelectedNode is FileNode)
             {
-                FileNode node = (FileNode)base.SelectedNode;
+                FileNode node = (FileNode)SelectedNode;
                 FileInfo file = node.GetFile();
                 DialogResult result = MessageBox.Show(
                     String.Format(Language.GetString("DialogFileRemove"), file.Name),
@@ -627,12 +629,12 @@ namespace MinecraftServerManager.Controls
                     node.Remove();
                 }
             }
-            else if (base.SelectedNode is DirectoryNode)
+            else if (SelectedNode is DirectoryNode)
             {
-                DirectoryNode node = (DirectoryNode)base.SelectedNode;
+                DirectoryNode node = (DirectoryNode)SelectedNode;
                 DirectoryInfo directory = node.GetDirectory();
                 string message;
-                if (base.SelectedNode is ServerNode)
+                if (SelectedNode is ServerNode)
                     message = String.Format(Language.GetString("DialogDirectoryRemove"), directory.Name);
                 else
                     message = String.Format(Language.GetString("DialogServerRemove"), directory.Name);
@@ -640,20 +642,12 @@ namespace MinecraftServerManager.Controls
                     MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
                 if (result == DialogResult.Yes)
                 {
-                    try
-                    {
-                        if (directory.Exists)
-                            new Computer().FileSystem.DeleteDirectory(directory.FullName, UIOption.AllDialogs, RecycleOption.SendToRecycleBin);
-                        if (base.SelectedNode is ServerNode && ((ServerNode)base.SelectedNode).GetServerData().isImported)
-                            File.Delete(((ServerNode)base.SelectedNode).GetServerData().GetFile());
-                        node.Destroy();
-                    }
-                    catch (OperationCanceledException) { }
+                    node.Delete = true;
                 }
             }
-            else if (base.SelectedNode is RemoteServerNode)
+            else if (SelectedNode is RemoteServerNode)
             {
-                RemoteServerNode node = (RemoteServerNode)base.SelectedNode;
+                RemoteServerNode node = (RemoteServerNode)SelectedNode;
                 DialogResult result = MessageBox.Show(
                 String.Format(Language.GetString("DialogRemoteServerRemove"), node.GetServerData().name),
                     Language.GetString("Warning"), MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
@@ -663,9 +657,9 @@ namespace MinecraftServerManager.Controls
                     node.Destroy();
                 }
             }
-            else if (base.SelectedNode is RemoteDirectoryNode)
+            else if (SelectedNode is RemoteDirectoryNode)
             {
-                RemoteDirectoryNode node = (RemoteDirectoryNode)base.SelectedNode;
+                RemoteDirectoryNode node = (RemoteDirectoryNode)SelectedNode;
                 DialogResult dr = MessageBox.Show(
                    String.Format(Language.GetString("DialogDirectoryRemove"), node.Text),
                    Language.GetString("Warning"), MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
@@ -676,9 +670,9 @@ namespace MinecraftServerManager.Controls
                     node.Destroy();
                 }
             }
-            else if (base.SelectedNode is RemoteFileNode)
+            else if (SelectedNode is RemoteFileNode)
             {
-                RemoteFileNode node = (RemoteFileNode)base.SelectedNode;
+                RemoteFileNode node = (RemoteFileNode)SelectedNode;
                 DialogResult dr = MessageBox.Show(
                    String.Format(Language.GetString("DialogFileRemove"), node.Text),
                    Language.GetString("Warning"), MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
@@ -693,11 +687,11 @@ namespace MinecraftServerManager.Controls
 
         private void exploreMenu_Click(object sender, EventArgs e)
         {
-            if (base.SelectedNode != null)
+            if (SelectedNode != null)
             {
-                if (base.SelectedNode is DirectoryNode)
+                if (SelectedNode is DirectoryNode)
                 {
-                    DirectoryNode node = (DirectoryNode)base.SelectedNode;
+                    DirectoryNode node = (DirectoryNode)SelectedNode;
                     Process.Start("explorer.exe", node.GetDirectory().FullName);
                 }
             }
@@ -707,62 +701,62 @@ namespace MinecraftServerManager.Controls
         {
             OldLabelEditName = null;
 
-            if (this.SelectedNode is ServerNode)
+            if (SelectedNode is ServerNode)
             {
-                ServerNode node = (ServerNode) this.SelectedNode;
+                ServerNode node = (ServerNode) SelectedNode;
                 OldLabelEditName = node.Text;
                 node.Text = node.GetServerData().name;
             }
-            else if (this.SelectedNode is RemoteServerNode)
+            else if (SelectedNode is RemoteServerNode)
             {
-                RemoteServerNode node = (RemoteServerNode) this.SelectedNode;
+                RemoteServerNode node = (RemoteServerNode) SelectedNode;
                 OldLabelEditName = node.Text;
                 node.Text = node.GetServerData().name;
             }
 
             EditAction = LabelEditAction.Rename;
-            this.SelectedNode.BeginEdit();
-            this.SelectedNode = null;
+            SelectedNode.BeginEdit();
+            SelectedNode = null;
         }
 
         private void openMenu_Click(object sender, EventArgs e)
         {
-            if (base.SelectedNode is FileNode)
+            if (SelectedNode is FileNode)
             {
-                FileNode i = (FileNode)base.SelectedNode;
-                TextEditor te = new TextEditor();
-                te.Load(i.GetFile(), this.tabs);
+                FileNode i = (FileNode)SelectedNode;
+                FileEditor te = new FileEditor();
+                te.Load(i.GetFile(), tabs);
             }
-            else if (base.SelectedNode is RemoteFileNode)
+            else if (SelectedNode is RemoteFileNode)
             {
-                RemoteFileNode i = (RemoteFileNode)base.SelectedNode;
-                TextEditor te = new TextEditor();
-                te.Load(i, this.tabs);
+                RemoteFileNode i = (RemoteFileNode)SelectedNode;
+                FileEditor te = new FileEditor();
+                te.Load(i, tabs);
             }
-            else if (base.SelectedNode is ConsoleNode)
+            else if (SelectedNode is ConsoleNode)
             {
-                ConsoleNode node = (ConsoleNode)base.SelectedNode;
+                ConsoleNode node = (ConsoleNode)SelectedNode;
                 Console console = new Console();
-                console.Load(node.Parent.GetServerData(), this.tabs);
+                console.Load(node.Parent.GetServerData(), tabs);
             }
-            else if (base.SelectedNode is RemoteConsoleNode)
+            else if (SelectedNode is RemoteConsoleNode)
             {
-                RemoteConsoleNode node = (RemoteConsoleNode)base.SelectedNode;
+                RemoteConsoleNode node = (RemoteConsoleNode)SelectedNode;
                 RemoteConsole console = new RemoteConsole();
-                console.Load(node.Parent.data, node.Parent.GetServerData().name, this.tabs);
-            } else if (base.SelectedNode is PropertiesNode)
+                console.Load(node.Parent.data, node.Parent.GetServerData().name, tabs);
+            } else if (SelectedNode is PropertiesNode)
             {
-                PropertiesNode node = (PropertiesNode)base.SelectedNode;
+                PropertiesNode node = (PropertiesNode)SelectedNode;
                 PropertiesEditor editor = new PropertiesEditor();
-                editor.Load(this.tabs);
+                editor.Load(tabs);
             }
         }
 
         private void moveFileMenu_Click(object sender, EventArgs e)
         {
-            if (base.SelectedNode is DirectoryNode)
+            if (SelectedNode is DirectoryNode)
             {
-                DirectoryNode node = (DirectoryNode)base.SelectedNode;
+                DirectoryNode node = (DirectoryNode)SelectedNode;
                 OpenFileDialog openFile = new OpenFileDialog();
                 openFile.Multiselect = true;
                 if (openFile.ShowDialog() == DialogResult.OK)
@@ -785,9 +779,9 @@ namespace MinecraftServerManager.Controls
 
         private void copyFileMenu_Click(object sender, EventArgs e)
         {
-            if (base.SelectedNode is DirectoryNode)
+            if (SelectedNode is DirectoryNode)
             {
-                DirectoryNode node = (DirectoryNode)base.SelectedNode;
+                DirectoryNode node = (DirectoryNode)SelectedNode;
                 OpenFileDialog openFile = new OpenFileDialog();
                 openFile.Multiselect = true;
                 if (openFile.ShowDialog() == DialogResult.OK)
@@ -811,9 +805,9 @@ namespace MinecraftServerManager.Controls
                     }
                 }
             }
-            else if (base.SelectedNode is RemoteDirectoryNode)
+            else if (SelectedNode is RemoteDirectoryNode)
             {
-                RemoteDirectoryNode node = (RemoteDirectoryNode)base.SelectedNode;
+                RemoteDirectoryNode node = (RemoteDirectoryNode)SelectedNode;
                 OpenFileDialog openFile = new OpenFileDialog();
                 openFile.Multiselect = true;
                 if (openFile.ShowDialog() == DialogResult.OK)
@@ -832,16 +826,16 @@ namespace MinecraftServerManager.Controls
 
         private void copyClipboardMenu_Click(object sender, EventArgs e)
         {
-            if (base.SelectedNode is DirectoryNode)
+            if (SelectedNode is DirectoryNode)
             {
-                DirectoryNode node = (DirectoryNode)base.SelectedNode;
+                DirectoryNode node = (DirectoryNode)SelectedNode;
                 StringCollection path = new StringCollection();
                 path.Add(node.GetDirectory().FullName);
                 Clipboard.SetFileDropList(path);
             }
-            else if (base.SelectedNode is FileNode)
+            else if (SelectedNode is FileNode)
             {
-                FileNode node = (FileNode)base.SelectedNode;
+                FileNode node = (FileNode)SelectedNode;
                 StringCollection path = new StringCollection();
                 path.Add(node.GetFile().FullName);
                 Clipboard.SetFileDropList(path);
@@ -850,9 +844,9 @@ namespace MinecraftServerManager.Controls
 
         private void pasteClipboardMenu_Click(object sender, EventArgs e)
         {
-            if (base.SelectedNode is DirectoryNode)
+            if (SelectedNode is DirectoryNode)
             {
-                DirectoryNode node = (DirectoryNode)base.SelectedNode;
+                DirectoryNode node = (DirectoryNode)SelectedNode;
                 StringCollection paths = Clipboard.GetFileDropList();
                 foreach (string path in paths)
                 {
@@ -884,9 +878,9 @@ namespace MinecraftServerManager.Controls
 
         private void copyDirectoryMenu_Click(object sender, EventArgs e)
         {
-            if (base.SelectedNode is DirectoryNode)
+            if (SelectedNode is DirectoryNode)
             {
-                DirectoryNode node = (DirectoryNode)base.SelectedNode;
+                DirectoryNode node = (DirectoryNode)SelectedNode;
                 FolderBrowserDialog fbd = new FolderBrowserDialog();
                 if (fbd.ShowDialog() == DialogResult.OK)
                 {
@@ -903,9 +897,9 @@ namespace MinecraftServerManager.Controls
                     catch (OperationCanceledException) { }
                 }
             } 
-            else if (base.SelectedNode is RemoteDirectoryNode) 
+            else if (SelectedNode is RemoteDirectoryNode) 
             {
-                RemoteDirectoryNode node = (RemoteDirectoryNode)base.SelectedNode;
+                RemoteDirectoryNode node = (RemoteDirectoryNode)SelectedNode;
                 FolderBrowserDialog fbd = new FolderBrowserDialog();
                 if (fbd.ShowDialog() == DialogResult.OK)
                 {
@@ -919,9 +913,9 @@ namespace MinecraftServerManager.Controls
 
         private void moveDirectoryMenu_Click(object sender, EventArgs e)
         {
-            if (base.SelectedNode is DirectoryNode)
+            if (SelectedNode is DirectoryNode)
             {
-                DirectoryNode node = (DirectoryNode)base.SelectedNode;
+                DirectoryNode node = (DirectoryNode)SelectedNode;
                 FolderBrowserDialog fbd = new FolderBrowserDialog();
                 if (fbd.ShowDialog() == DialogResult.OK)
                 {
@@ -951,7 +945,7 @@ namespace MinecraftServerManager.Controls
         {
             ToolStripMenuItem menuItem = new ToolStripMenuItem();
             menuItem.Text = Language.GetString("ExplorerOpen");
-            menuItem.Click += new EventHandler(this.exploreMenu_Click);
+            menuItem.Click += new EventHandler(exploreMenu_Click);
             return menuItem;
         }
 
@@ -959,7 +953,7 @@ namespace MinecraftServerManager.Controls
         {
             ToolStripMenuItem menuItem = new ToolStripMenuItem();
             menuItem.Text = Language.GetString("Rename");
-            menuItem.Click += new EventHandler(this.renameMenu_Click);
+            menuItem.Click += new EventHandler(renameMenu_Click);
             return menuItem;
         }
 
@@ -967,7 +961,7 @@ namespace MinecraftServerManager.Controls
         {
             ToolStripMenuItem menuItem = new ToolStripMenuItem();
             menuItem.Text = Language.GetString("Open");
-            menuItem.Click += new EventHandler(this.openMenu_Click);
+            menuItem.Click += new EventHandler(openMenu_Click);
             return menuItem;
         }
 
@@ -975,7 +969,7 @@ namespace MinecraftServerManager.Controls
         {
             ToolStripMenuItem menuItem = new ToolStripMenuItem();
             menuItem.Text = Language.GetString("NewFile");
-            menuItem.Click += new EventHandler(this.newFileMenu_Click);
+            menuItem.Click += new EventHandler(newFileMenu_Click);
             return menuItem;
         }
 
@@ -983,7 +977,7 @@ namespace MinecraftServerManager.Controls
         {
             ToolStripMenuItem menuItem = new ToolStripMenuItem();
             menuItem.Text = Language.GetString("NewDirectory");
-            menuItem.Click += new EventHandler(this.newDirectoryMenu_Click);
+            menuItem.Click += new EventHandler(newDirectoryMenu_Click);
             return menuItem;
         }
 
@@ -991,7 +985,7 @@ namespace MinecraftServerManager.Controls
         {
             ToolStripMenuItem menuItem = new ToolStripMenuItem();
             menuItem.Text = Language.GetString("CopyFile");
-            menuItem.Click += new EventHandler(this.copyFileMenu_Click);
+            menuItem.Click += new EventHandler(copyFileMenu_Click);
             return menuItem;
         }
 
@@ -999,7 +993,7 @@ namespace MinecraftServerManager.Controls
         {
             ToolStripMenuItem menuItem = new ToolStripMenuItem();
             menuItem.Text = Language.GetString("MoveFile");
-            menuItem.Click += new EventHandler(this.moveFileMenu_Click);
+            menuItem.Click += new EventHandler(moveFileMenu_Click);
             return menuItem;
         }
 
@@ -1007,7 +1001,7 @@ namespace MinecraftServerManager.Controls
         {
             ToolStripMenuItem menuItem = new ToolStripMenuItem();
             menuItem.Text = Language.GetString("CopyDirectory");
-            menuItem.Click += new EventHandler(this.copyDirectoryMenu_Click);
+            menuItem.Click += new EventHandler(copyDirectoryMenu_Click);
             return menuItem;
         }
 
@@ -1015,7 +1009,7 @@ namespace MinecraftServerManager.Controls
         {
             ToolStripMenuItem menuItem = new ToolStripMenuItem();
             menuItem.Text = Language.GetString("MoveDirectory");
-            menuItem.Click += new EventHandler(this.moveDirectoryMenu_Click);
+            menuItem.Click += new EventHandler(moveDirectoryMenu_Click);
             return menuItem;
         }
 
@@ -1023,7 +1017,7 @@ namespace MinecraftServerManager.Controls
         {
             ToolStripMenuItem menuItem = new ToolStripMenuItem();
             menuItem.Text = Language.GetString("CopyClipboard");
-            menuItem.Click += new EventHandler(this.copyClipboardMenu_Click);
+            menuItem.Click += new EventHandler(copyClipboardMenu_Click);
             return menuItem;
         }
 
@@ -1031,7 +1025,7 @@ namespace MinecraftServerManager.Controls
         {
             ToolStripMenuItem menuItem = new ToolStripMenuItem();
             menuItem.Text = Language.GetString("PasteClipboard");
-            menuItem.Click += new EventHandler(this.pasteClipboardMenu_Click);
+            menuItem.Click += new EventHandler(pasteClipboardMenu_Click);
             return menuItem;
         }
 

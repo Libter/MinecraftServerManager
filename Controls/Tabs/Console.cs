@@ -115,7 +115,7 @@ namespace MinecraftServerManager.Controls
             tabs.AddTab(serverData.ToString(), this);
             
             this.text.Clear();
-            this.text.TextChanged += new EventHandler<TextChangedEventArgs>(Parsers.Log.Parse);
+            this.text.TextChanged += new EventHandler<TextChangedEventArgs>(FileEditor.Log.Parse);
         }
 
         private string GetJavaPath()

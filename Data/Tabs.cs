@@ -25,16 +25,16 @@ namespace MinecraftServerManager.Data
                     tabData.Type = Tab.TabType.RemoteConsole;
                     tabData.DataFileName = ((Controls.RemoteConsole)c).DataFileName;
                 }
-                else if (c is Controls.TextEditor && !((Controls.TextEditor)c).ftp)
+                else if (c is Controls.FileEditor && !((Controls.FileEditor)c).ftp)
                 {
                     tabData.Type = Tab.TabType.TextEditor;
-                    tabData.DataFileName = ((Controls.TextEditor)c).file.FullName;
+                    tabData.DataFileName = ((Controls.FileEditor)c).file.FullName;
                 }
-                else if (c is Controls.TextEditor && ((Controls.TextEditor)c).ftp)
+                else if (c is Controls.FileEditor && ((Controls.FileEditor)c).ftp)
                 {
                     tabData.Type = Tab.TabType.RemoteTextEditor;
-                    tabData.DataFileName = ((Controls.TextEditor)c).Data.GetFile();
-                    tabData.RemoteFileName = ((Controls.TextEditor)c).ftpFile;
+                    tabData.DataFileName = ((Controls.FileEditor)c).Data.GetFile();
+                    tabData.RemoteFileName = ((Controls.FileEditor)c).ftpFile;
                 }
                 else if (c is Controls.StyleEditor)
                 {
