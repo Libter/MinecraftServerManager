@@ -102,6 +102,18 @@ namespace MinecraftServerManager.Controls
                         Error.Show("ErrorFileTooBig");
                         return;
                     }
+
+                    if (file.Extension == ".properties")
+                        text.TextChanged += new EventHandler<TextChangedEventArgs>(PropertiesParser);
+                    else if (file.Extension == ".yml")
+                        text.TextChanged += new EventHandler<TextChangedEventArgs>(YamlParser);
+                    else if (file.Extension == ".json")
+                        text.TextChanged += new EventHandler<TextChangedEventArgs>(JsonParser);
+                    else if (file.Extension == ".log")
+                        text.TextChanged += new EventHandler<TextChangedEventArgs>(Log.Parse);
+                    else if (file.Extension == ".sk")
+                        text.TextChanged += new EventHandler<TextChangedEventArgs>(SkriptParser);
+
                     try
                     {
                         StreamReader sr = new StreamReader(file.FullName);
@@ -115,20 +127,10 @@ namespace MinecraftServerManager.Controls
                         return;
                     }
 
+                    text.TextChanged += new EventHandler<TextChangedEventArgs>(Parser);
+
                     text.Visible = true;
                     saveButton.Visible = true;
-
-                    if (file.Extension == ".properties")
-                        text.TextChanged += new EventHandler<TextChangedEventArgs>(PropertiesParser);
-                    else if (file.Extension == ".yml")
-                        text.TextChanged += new EventHandler<TextChangedEventArgs>(YamlParser);
-                    else if (file.Extension == ".json")
-                        text.TextChanged += new EventHandler<TextChangedEventArgs>(JsonParser);
-                    else if (file.Extension == ".log")
-                        text.TextChanged += new EventHandler<TextChangedEventArgs>(Log.Parse);
-                    else if (file.Extension == ".sk")
-                        text.TextChanged += new EventHandler<TextChangedEventArgs>(SkriptParser);
-                    text.TextChanged += new EventHandler<TextChangedEventArgs>(Parser);
                     break;
                 case FileType.Image:
                     picturePanel.Visible = true;

@@ -635,9 +635,9 @@ namespace MinecraftServerManager.Controls
                 DirectoryInfo directory = node.GetDirectory();
                 string message;
                 if (SelectedNode is ServerNode)
-                    message = String.Format(Language.GetString("DialogDirectoryRemove"), directory.Name);
-                else
                     message = String.Format(Language.GetString("DialogServerRemove"), directory.Name);
+                else
+                    message = String.Format(Language.GetString("DialogDirectoryRemove"), directory.Name);
                 DialogResult result = MessageBox.Show(message, Language.GetString("Warning"), 
                     MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
                 if (result == DialogResult.Yes)

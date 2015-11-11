@@ -10,14 +10,15 @@ namespace MinecraftServerManager.Controls.ServersTreeNodes
     public class DirectoryNode : TreeNode
     {
         public bool Delete = false;
-        private DirectoryInfo Directory;
+        private DirectoryInfo directory;
+        protected List<string> IgnoredFiles = new List<string>();
         protected List<string> names = new List<string>();
         protected Timer timer = new Timer();
 
         public DirectoryNode(DirectoryNode parent, DirectoryInfo directoryInfo)
             : base(directoryInfo.Name)
         {
-            Directory = directoryInfo;
+            directory = directoryInfo;
 
             ImageIndex = ServersTreeView.FolderCloseIcon;
             SelectedImageIndex = ImageIndex;
@@ -34,7 +35,7 @@ namespace MinecraftServerManager.Controls.ServersTreeNodes
         public DirectoryNode(ServersTreeView treeView, DirectoryInfo directoryInfo, string name)
             : base(name)
         {
-            Directory = directoryInfo;
+            directory = directoryInfo;
 
             timer.Tick += new EventHandler(timer_tick);
             timer.Interval = 100;
@@ -49,7 +50,8 @@ namespace MinecraftServerManager.Controls.ServersTreeNodes
         {
             try
             {
-                 Refresh();
+                 if (IsExpanded || Delete)
+                    Refresh();
             }
             catch (Exception) { }
         }
@@ -60,8 +62,8 @@ namespace MinecraftServerManager.Controls.ServersTreeNodes
             {
                 try
                 {
-                    if (Directory.Exists)
-                        new Computer().FileSystem.DeleteDirectory(Directory.FullName, UIOption.AllDialogs, RecycleOption.SendToRecycleBin);
+                    if (directory.Exists)
+                        new Computer().FileSystem.DeleteDirectory(directory.FullName, UIOption.AllDialogs, RecycleOption.SendToRecycleBin);
                     if (this is ServerNode && ((ServerNode)this).GetServerData().isImported)
                         File.Delete(((ServerNode)this).GetServerData().GetFile());
                     Destroy();
@@ -69,40 +71,40 @@ namespace MinecraftServerManager.Controls.ServersTreeNodes
                 catch (OperationCanceledException) { }
                 return;
             }
+
             List<string> newNames = new List<string>();
-            foreach (DirectoryInfo directoryInfo in Directory.GetDirectories())
+            foreach (DirectoryInfo directoryInfo in directory.GetDirectories())
                 newNames.Add(directoryInfo.FullName);
-            foreach (FileInfo fileInfo in Directory.GetFiles())
+            foreach (FileInfo fileInfo in directory.GetFiles())
+            {
+                if (IgnoredFiles.Contains(fileInfo.Name)) continue;
                 newNames.Add(fileInfo.FullName);
+            }
+
             bool equals = true;
             if (newNames.Count != names.Count)
-            {
                 equals = false;
-            }
             else
-            {
                 for (int i = 0; i < newNames.Count; i++)
-                {
                     if (newNames[i] != names[i])
                     {
                         equals = false;
                         break;
                     }
-                }
-            }
+
             if (!equals)
             {
-                names.Clear();
+                names = newNames;
                 Nodes.Clear();
-                foreach (DirectoryInfo directoryInfo in Directory.GetDirectories())
+
+                if (this is ServerNode) new ConsoleNode((ServerNode)this);
+
+                foreach (string path in names)
                 {
-                    new DirectoryNode(this, directoryInfo);
-                    names.Add(directoryInfo.FullName);
-                }
-                foreach (FileInfo fileInfo in Directory.GetFiles())
-                {
-                    new FileNode(this, fileInfo);
-                    names.Add(fileInfo.FullName);
+                    if (Directory.Exists(path))
+                        new DirectoryNode(this, new DirectoryInfo(path));
+                    if (File.Exists(path))
+                        new FileNode(this, new FileInfo(path));
                 }
             }
         }
@@ -111,14 +113,14 @@ namespace MinecraftServerManager.Controls.ServersTreeNodes
         {
             int fileCount = 0;
 
-            fileCount = Directory.GetFiles().Length;
-            if ((fileCount + Directory.GetDirectories().Length) > 0)
+            fileCount = directory.GetFiles().Length;
+            if ((fileCount + directory.GetDirectories().Length) > 0)
                 new FakeChildNode(this);
         }
 
         public DirectoryInfo GetDirectory()
         {
-            return Directory;
+            return directory;
         }
 
         public new ServersTreeView TreeView
