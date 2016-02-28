@@ -1,11 +1,3 @@
-<b>Website:</b>
-- <a href="http://mcservermanager.tk">Main page</a>
-- <a href="http://mcservermanager.tk/forum/">Forum</a>
-- <a href="http://mcservermanager.tk/help.php">Help us</a>
-- <a href="http://mcservermanager.tk/changelog.php">Changelog</a>
-- <a href="http://mcservermanager.tk/about.php">About</a>
-- <a href="http://mcservermanager.tk/future.php">Future changes</a>
-
 <b>Forums</b>:
 - <a href="https://www.spigotmc.org/threads/minecraft-server-manager-easily-manage-your-servers.100099/">SpigotMc.org</a>
 - <a href="http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-tools/2550870-minecraft-server-manager-easily-manage-your">MinecraftForum.net</a>
