@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("Minecraft Server Manager")]
 [assembly: AssemblyProduct("Minecraft Server Manager")]
-[assembly: AssemblyCopyright("© Libter 2015")]
+[assembly: AssemblyCopyright("© Libter 2016")]
 
 [assembly: ComVisible(false)]
 

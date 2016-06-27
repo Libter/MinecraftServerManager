@@ -178,7 +178,7 @@ namespace MinecraftServerManager.Controls
             info.UseShellExecute = false;
             info.WorkingDirectory = serverData.GetDirectory();
             info.FileName = GetJavaPath();
-            info.Arguments = "-jar ";
+            info.Arguments = "-Xmx1G -jar ";
             if (serverData.isImported)
                 info.Arguments += "\"" + serverData.jarPath + "\"";
             else
